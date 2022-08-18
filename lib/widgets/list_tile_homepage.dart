@@ -1,3 +1,4 @@
+import 'package:app/colors.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
@@ -7,8 +8,6 @@ class CustomListTile extends StatelessWidget {
   final IconData icon;
   final int num;
   final Color iconColor;
-
-  //final double topLeftRadius;
   final double topRadius;
   final double bottomRadius;
 
@@ -32,7 +31,7 @@ class CustomListTile extends StatelessWidget {
             bottom: Radius.circular(bottomRadius),
           ),
         ),
-        tileColor: const Color.fromRGBO(44, 44, 46, 1),
+        tileColor: CustomColors.listTile,
         title: Text(
           title,
           style: const TextStyle(color: Colors.white,

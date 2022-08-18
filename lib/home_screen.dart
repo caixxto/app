@@ -1,4 +1,6 @@
 
+import 'package:app/colors.dart';
+import 'package:app/widgets/divider.dart';
 import 'package:app/widgets/list_tile_homepage.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -18,7 +20,7 @@ class _HomeScreenState extends State<StatefulWidget> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: const Color.fromRGBO(255, 214, 10, 1),
+        backgroundColor: CustomColors.theme,
         leading: IconButton(
           icon: const Icon(
             Icons.menu,
@@ -38,7 +40,7 @@ class _HomeScreenState extends State<StatefulWidget> {
         ],
       ),
       body: Material(
-        color: const Color.fromRGBO(28, 28, 30, 1),
+        color: CustomColors.background,
 // MAIN COLUMN
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
@@ -57,7 +59,7 @@ class _HomeScreenState extends State<StatefulWidget> {
               child: SizedBox(
                 child: DecoratedBox(
                   decoration: const BoxDecoration(
-                    color: Color.fromRGBO(44, 44, 46, 1),
+                    color: CustomColors.listTile,
                     borderRadius: BorderRadius.all(Radius.circular(12)),
                   ),
 //CHILD COLUMN
@@ -66,17 +68,9 @@ class _HomeScreenState extends State<StatefulWidget> {
                     //crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       CustomListTile(title: 'Inbox', icon: Icons.inbox, num: 12, iconColor: Colors.yellow, topRadius: 12, bottomRadius: 0),
-                      const Divider(
-                        color: Color.fromRGBO(84, 84, 88, 0.65),
-                        indent: 52,
-                        height: 1,
-                      ),
+                      const DividerWidget(),
                       CustomListTile(title: 'Today', icon: Icons.calendar_today, num: 4, iconColor: Colors.green, topRadius: 0, bottomRadius: 0),
-                      const Divider(
-                        color: Color.fromRGBO(84, 84, 88, 0.65),
-                        indent: 52,
-                        height: 1,
-                      ),
+                      const DividerWidget(),
                       CustomListTile(title: 'Upcoming', icon: Icons.calendar_month, num: 8, iconColor: Colors.blue, topRadius: 0, bottomRadius: 12),
                     ],
                   ),
@@ -95,7 +89,7 @@ class _HomeScreenState extends State<StatefulWidget> {
               child: SizedBox(
                 child: DecoratedBox(
                   decoration: const BoxDecoration(
-                    color: Color.fromRGBO(44, 44, 46, 1),
+                    color: CustomColors.listTile,
                     borderRadius: BorderRadius.all(Radius.circular(12)),
                   ),
 //CHILD COLUMN
@@ -104,23 +98,11 @@ class _HomeScreenState extends State<StatefulWidget> {
                     //crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       CustomListTile(title: 'Personal', icon: Icons.brightness_1_rounded, num: 12, iconColor: Colors.yellow, topRadius: 12, bottomRadius: 0),
-                      const Divider(
-                        color: Color.fromRGBO(84, 84, 88, 0.65),
-                        indent: 52,
-                        height: 1,
-                      ),
+                      const DividerWidget(),
                       CustomListTile(title: 'Work', icon: Icons.brightness_1_rounded, num: 4, iconColor: Colors.orange, topRadius: 0, bottomRadius: 0),
-                      const Divider(
-                        color: Color.fromRGBO(84, 84, 88, 0.65),
-                        indent: 52,
-                        height: 1,
-                      ),
+                      const DividerWidget(),
                       CustomListTile(title: 'Design', icon: Icons.brightness_1_sharp, num: 4, iconColor: Colors.purple, topRadius: 0, bottomRadius: 0),
-                      const Divider(
-                        color: Color.fromRGBO(84, 84, 88, 0.65),
-                        indent: 52,
-                        height: 1,
-                      ),
+                      const DividerWidget(),
                       CustomListTile(title: 'Study', icon: Icons.brightness_1_rounded, num: 8, iconColor: Colors.green, topRadius: 0, bottomRadius: 12),
                     ],
                   ),
@@ -138,14 +120,13 @@ class _HomeScreenState extends State<StatefulWidget> {
               Icons.add,
               color: Colors.black,
           ),
-          backgroundColor: Color.fromRGBO(255, 214, 10, 1),
+          backgroundColor: CustomColors.buttons,
         ),
       )
     );
   }
 
   void tap() {
-    //s
   }
-  
+
   }
