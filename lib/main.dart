@@ -1,6 +1,8 @@
+import 'package:app/signin_screen.dart';
+import 'package:app/signup_screen.dart';
 import 'package:flutter/material.dart';
-
 import 'authorization_screen.dart';
+import 'home_screen.dart';
 import 'main_screen.dart';
 
 void main() {
@@ -14,11 +16,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Flutter Demo',
-      theme: ThemeData(
-        primarySwatch: Colors.blue,
-      ),
-      home: AutoScreen(),
+      home: HomeScreen(),
     );
   }
 }
