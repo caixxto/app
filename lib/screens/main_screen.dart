@@ -1,4 +1,5 @@
 
+import 'package:app/colors.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
@@ -15,17 +16,20 @@ class _MainScreenState extends State<StatefulWidget> {
     final Size size = MediaQuery.of(context).size;
     final double screenWidth = size.width;
     final double screenHeight = size.height;
-    return Container(
-      // height: screenHeight,
-      // width: screenWidth,
-      color: const Color.fromARGB(255, 255, 214, 10),
-      child: Stack(
-        fit: StackFit.expand,
+    return Scaffold(
+      backgroundColor: CustomColors.theme,
+      body: Stack(
+        alignment: AlignmentDirectional.center,
         children: [
-          Image.asset('assets/images/main_background.png'),
-          Center(
-              child: Image.asset('assets/images/logo.png')
-          )
+          Positioned(
+            child: Image.asset('assets/images/background.png',
+            fit: BoxFit.cover,
+              height: screenHeight,
+              width: screenWidth,
+            ),
+          ),
+         // Image.asset('assets/images/background.png'),
+          Image.asset('assets/images/logo.png')
         ],
       ),
     );
