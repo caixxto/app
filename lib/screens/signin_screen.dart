@@ -41,9 +41,21 @@ class SighInScreen extends StatelessWidget {
                   Icons.arrow_back,
                   color: Colors.black,
               ), onPressed: () {
+                Navigator.pop(context);
                 //tap
             },
             ),
+          // actions: [
+          //   IconButton(
+          //     icon: const Icon(
+          //       Icons.arrow_back,
+          //       color: Colors.black,
+          //     ),
+          //     onPressed: () {
+          //     Navigator.pop(context);
+          //   },
+          //   ),
+          // ],
         ),
         body: Container(
           color: const Color.fromARGB(255, 28, 28, 30),

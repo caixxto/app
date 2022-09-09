@@ -34,7 +34,15 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      home: HomeScreen(),
+      //home: AutoScreen(),
+      initialRoute: '/todo',
+      routes: {
+        '/home': (context) => HomeScreen(),
+        '/start': (context) => AutoScreen(),
+        '/sign_in': (context) => SighInScreen(),
+        '/sign_up': (context) => SighUpScreen(),
+        '/todo': (context) => NewToDo(),
+      },
     );
   }
 }

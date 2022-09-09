@@ -32,7 +32,9 @@ class _AutoScreenState extends State<StatefulWidget> {
                // mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: [
                   ElevatedButton(
-                      onPressed: tap,
+                      onPressed: () {
+                        Navigator.pushNamed(context, '/sign_in');
+                      },
                     style: ElevatedButton.styleFrom(
                       primary: const Color.fromARGB(255, 255, 214, 10),
                       textStyle: const TextStyle(color: Colors.black, fontSize: 14, fontWeight: FontWeight.bold, fontFamily: 'SFProTextRegular'),
@@ -43,7 +45,9 @@ class _AutoScreenState extends State<StatefulWidget> {
                   Padding(
                     padding: const EdgeInsets.fromLTRB(0, 12, 0, 0),
                     child: ElevatedButton(
-                        onPressed: tap,
+                        onPressed: () {
+                          Navigator.pushNamed(context, '/sign_up');
+                        },
                         style: ElevatedButton.styleFrom(
                             primary: const Color.fromARGB(255, 44, 44, 46),
                             textStyle: const TextStyle(color: Colors.white, fontSize: 14, fontWeight: FontWeight.bold, fontFamily: 'SFProTextRegular'),

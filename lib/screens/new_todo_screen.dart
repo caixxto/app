@@ -8,6 +8,7 @@ import 'package:app/screens/providers/new_todo_bloc/todo_model.dart';
 import 'package:app/screens/providers/new_todo_bloc/todo_state.dart';
 import 'package:app/styles.dart';
 import 'package:app/widgets/list_tile_homepage.dart';
+import 'package:app/widgets/todo_widgets/calendar.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
@@ -150,7 +151,16 @@ class _NewToDoState extends State<StatefulWidget> {
     );
   }
 
-  showMenu() {
+  void showCalendar() {
+    showModalBottomSheet(
+      context: context,
+      builder:  (BuildContext context) {
+        return Container(child: const CalendarWidget(), color: const Color.fromRGBO(44, 44, 46, 1),);
+      }
+    );
+  }
+
+  void showMenu() {
     showModalBottomSheet(
         context: context,
         builder: (BuildContext context) {
@@ -164,7 +174,8 @@ class _NewToDoState extends State<StatefulWidget> {
                 style: TextStyle(color: Colors.white,
                     fontSize: 14,
                     fontWeight: FontWeight.bold,
-                    fontFamily: 'SFProTextRegular'),
+                    fontFamily: 'SFProTextRegular'
+                ),
               ),
               leadingWidth: 100,
               leading: ElevatedButton(
@@ -245,31 +256,34 @@ class _NewToDoState extends State<StatefulWidget> {
   }) {
     return SizedBox(
         height: 32,
-        child: DecoratedBox(
-          decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(6),
-            color: CustomColors.darkGrey,
-          ),
-          child: Padding(
-            padding: const EdgeInsets.only(
-                top: 8, right: 12, bottom: 8, left: 8),
-            child: Row(
-              children: [
-                Icon(
-                  icon,
-                  color: iconColor,
-                  size: 16,
-                ),
-                const SizedBox(
-                  width: 8,
-                ),
-                Text(
-                  text,
-                  style: TextStyle(color: textColor,
-                      fontSize: 14,
-                      fontWeight: FontWeight.normal,
-                      fontFamily: 'SFProTextRegular'),),
-              ],
+        child: InkWell(
+          onTap: showCalendar,
+          child: DecoratedBox(
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(6),
+              color: CustomColors.darkGrey,
+            ),
+            child: Padding(
+              padding: const EdgeInsets.only(
+                  top: 8, right: 12, bottom: 8, left: 8),
+              child: Row(
+                children: [
+                  Icon(
+                    icon,
+                    color: iconColor,
+                    size: 16,
+                  ),
+                  const SizedBox(
+                    width: 8,
+                  ),
+                  Text(
+                    text,
+                    style: TextStyle(color: textColor,
+                        fontSize: 14,
+                        fontWeight: FontWeight.normal,
+                        fontFamily: 'SFProTextRegular'),),
+                ],
+              ),
             ),
           ),
         )
