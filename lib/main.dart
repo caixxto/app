@@ -25,7 +25,7 @@ void main() {
         ),
         BlocProvider(
           create: (_) => LoginBloc(authRepo: AuthRepository()),
-          child: SighUpScreen(),
+          child: SignUpScreen(),
         ),
       ],
       child: const MyApp(),
@@ -51,7 +51,7 @@ class MyApp extends StatelessWidget {
         '/sign_in': (context) => SighInScreen(),
         '/sign_up': (context) => RepositoryProvider(
               create: (context) => AuthRepository(),
-              child: SighUpScreen(),
+              child: SignUpScreen(),
         ),
         '/todo': (context) => NewToDo(),
       },

@@ -12,19 +12,18 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-class SighUpScreen extends StatefulWidget {
-  const SighUpScreen({Key? key}) : super(key: key);
+class SignUpScreen extends StatefulWidget {
+  const SignUpScreen({Key? key}) : super(key: key);
 
   @override
-  State<StatefulWidget> createState() => _SighUpScreenState();
+  State<StatefulWidget> createState() => _SignUpScreenState();
 }
 
-class _SighUpScreenState extends State<StatefulWidget> {
+class _SignUpScreenState extends State<StatefulWidget> {
   final _formKey = GlobalKey<FormState>();
 
   @override
   Widget build(BuildContext context) {
-
     return MaterialApp(
       theme: ThemeData(primaryColor: Colors.yellow), //?
       home: Scaffold(
@@ -49,13 +48,13 @@ class _SighUpScreenState extends State<StatefulWidget> {
           child: Stack(
             children: [
               BlocProvider(
-                create: (context) => LoginBloc(
-                    authRepo: context.read<AuthRepository>()),
+                create: (context) =>
+                    LoginBloc(authRepo: context.read<AuthRepository>()),
                 child: _form(),
               ),
               Align(
                 alignment: Alignment.bottomCenter,
-                 child: _loginButton(),
+                child: _loginButton(),
               )
             ],
           ),
@@ -69,7 +68,7 @@ class _SighUpScreenState extends State<StatefulWidget> {
       listener: (context, state) {
         final formStatus = state.formStatus;
         if (formStatus is SubmissionFailed) {
-          _showSnackBar(context, formStatus.exception.toString());
+          //error
         }
       },
       child: Form(
@@ -82,8 +81,7 @@ class _SighUpScreenState extends State<StatefulWidget> {
                 child: Text(
                   'NAME',
                   style: CustomStyles.grey14,
-                )
-            ),
+                )),
             _usernameField(),
             const Padding(
                 padding: EdgeInsets.fromLTRB(16, 24, 0, 8),
@@ -105,21 +103,15 @@ class _SighUpScreenState extends State<StatefulWidget> {
     );
   }
 
-  void _showSnackBar(BuildContext context, String message) {
-    final snackBar = SnackBar(content: Text(message));
-    ScaffoldMessenger.of(context).showSnackBar(snackBar);
-  }
-
   Widget _emailField() {
     return BlocBuilder<LoginBloc, LoginState>(builder: (context, state) {
       return TextFieldWidget(
         keyboardType: TextInputType.emailAddress,
         textInputAction: TextInputAction.done,
-        validator: (value) =>
-        state.isValidEmail ? null : 'Email is invalid',
+        validator: (value) => state.isValidEmail ? null : 'Email is invalid',
         onChanged: (value) => context.read<LoginBloc>().add(
-          LoginEmailChanged(email: value),
-        ),
+              LoginEmailChanged(email: value),
+            ),
       );
     });
   }
@@ -127,13 +119,13 @@ class _SighUpScreenState extends State<StatefulWidget> {
   Widget _usernameField() {
     return BlocBuilder<LoginBloc, LoginState>(builder: (context, state) {
       return TextFieldWidget(
-          keyboardType: TextInputType.name,
-          textInputAction: TextInputAction.done,
-          validator: (value) =>
-    state.isValidUsername ? null : 'Username is too short',
-          onChanged: (value) => context.read<LoginBloc>().add(
-    LoginUsernameChanged(username: value),
-    ),
+        keyboardType: TextInputType.name,
+        textInputAction: TextInputAction.done,
+        validator: (value) =>
+            state.isValidUsername ? null : 'Username is too short',
+        onChanged: (value) => context.read<LoginBloc>().add(
+              LoginUsernameChanged(username: value),
+            ),
       );
     });
   }
@@ -144,10 +136,10 @@ class _SighUpScreenState extends State<StatefulWidget> {
         keyboardType: TextInputType.visiblePassword,
         textInputAction: TextInputAction.done,
         validator: (value) =>
-        state.isValidPassword ? null : 'Password is invalid',
+            state.isValidPassword ? null : 'Password is invalid',
         onChanged: (value) => context.read<LoginBloc>().add(
-          LoginPasswordChanged(password: value),
-        ),
+              LoginPasswordChanged(password: value),
+            ),
       );
     });
   }
@@ -157,20 +149,17 @@ class _SighUpScreenState extends State<StatefulWidget> {
       return state.formStatus is FormSubmitting
           ? const CircularProgressIndicator()
           : ButtonWidget(
-        onPressed: () {
-          if (_formKey.currentState!.validate()) {
-            context.read<LoginBloc>().add(LoginSubmitted());
-            Navigator.of(context).push(
-              MaterialPageRoute(
-                  builder: (context) => HomeScreen(),
-              )
-          );
-            //Navigator.pushNamed(context, '/home');
-          }
-        },
-        text: 'SIGN UP',
-      );
+              onPressed: () {
+                if (_formKey.currentState!.validate()) {
+                  context.read<LoginBloc>().add(LoginSubmitted());
+                  Navigator.of(context).push(MaterialPageRoute(
+                    builder: (context) => HomeScreen(),
+                  ));
+                  //Navigator.pushNamed(context, '/home');
+                }
+              },
+              text: 'SIGN UP',
+            );
     });
   }
-  }
-
+}

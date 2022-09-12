@@ -26,6 +26,7 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
     on<LoginSubmitted>((event, emit) {
       emit(state.copyWith(formStatus: FormSubmitting()));
     });
+
     }
   }
 
