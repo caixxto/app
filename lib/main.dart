@@ -1,3 +1,5 @@
+import 'package:app/screens/providers/auth_bloc/auth_repository.dart';
+import 'package:app/screens/providers/auth_bloc/login_model.dart';
 import 'package:app/screens/providers/bloc/text_model.dart';
 import 'package:app/screens/providers/new_todo_bloc/todo_model.dart';
 import 'package:app/screens/providers/sign_in_provider.dart';
@@ -21,6 +23,10 @@ void main() {
         BlocProvider(
           create: (_) => ToDoModel(),
         ),
+        BlocProvider(
+          create: (_) => LoginBloc(authRepo: AuthRepository()),
+          child: SighUpScreen(),
+        ),
       ],
       child: const MyApp(),
     ),
@@ -30,17 +36,23 @@ void main() {
 class MyApp extends StatelessWidget {
   const MyApp({Key? key}) : super(key: key);
 
-  // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      //home: AutoScreen(),
-      initialRoute: '/todo',
+
+      // home: RepositoryProvider(
+      //   create: (context) => AuthRepository(),
+      //   child: SighUpScreen(),
+      // ),
+      initialRoute: '/start',
       routes: {
         '/home': (context) => HomeScreen(),
         '/start': (context) => AutoScreen(),
         '/sign_in': (context) => SighInScreen(),
-        '/sign_up': (context) => SighUpScreen(),
+        '/sign_up': (context) => RepositoryProvider(
+              create: (context) => AuthRepository(),
+              child: SighUpScreen(),
+        ),
         '/todo': (context) => NewToDo(),
       },
     );

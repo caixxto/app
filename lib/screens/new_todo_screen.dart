@@ -1,12 +1,12 @@
 import 'package:app/Items.dart';
-import 'package:app/colors.dart';
+import 'package:app/styles/colors.dart';
 import 'package:app/screens/providers/bloc/text_event.dart';
 import 'package:app/screens/providers/bloc/text_model.dart';
 import 'package:app/screens/providers/bloc/text_state.dart';
 import 'package:app/screens/providers/new_todo_bloc/todo_event.dart';
 import 'package:app/screens/providers/new_todo_bloc/todo_model.dart';
 import 'package:app/screens/providers/new_todo_bloc/todo_state.dart';
-import 'package:app/styles.dart';
+import 'package:app/styles/styles.dart';
 import 'package:app/widgets/list_tile_homepage.dart';
 import 'package:app/widgets/todo_widgets/calendar.dart';
 import 'package:flutter/cupertino.dart';

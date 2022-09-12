@@ -1,4 +1,4 @@
-import 'package:app/colors.dart';
+import 'package:app/styles/colors.dart';
 import 'package:app/screens/new_todo_screen.dart';
 import 'package:app/widgets/divider.dart';
 import 'package:app/widgets/list_tile_homepage.dart';

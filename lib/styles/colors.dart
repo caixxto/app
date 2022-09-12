@@ -9,5 +9,7 @@ class CustomColors {
   static const textWhite = Color.fromRGBO(255, 255, 255, 1);
   static const darkGrey = Color.fromRGBO(44, 44, 46, 1);
   static const lightGrey = Color.fromRGBO(235, 235, 245, 0.6);
+  static const yellow = Color(0xffffd60a);
+  static const darkGreyBackground = Color(0xFF1C1C1E);
 
 }
