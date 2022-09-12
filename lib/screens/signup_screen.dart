@@ -146,16 +146,13 @@ class _SignUpScreenState extends State<StatefulWidget> {
 
   Widget _loginButton() {
     return BlocBuilder<LoginBloc, LoginState>(builder: (context, state) {
-      return state.formStatus is FormSubmitting
-          ? const CircularProgressIndicator()
-          : ButtonWidget(
+      return ButtonWidget(
               onPressed: () {
                 if (_formKey.currentState!.validate()) {
                   context.read<LoginBloc>().add(LoginSubmitted());
                   Navigator.of(context).push(MaterialPageRoute(
                     builder: (context) => HomeScreen(),
                   ));
-                  //Navigator.pushNamed(context, '/home');
                 }
               },
               text: 'SIGN UP',
