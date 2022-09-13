@@ -40,7 +40,7 @@ class _AutoScreenState extends State<StatefulWidget> {
                       textStyle: const TextStyle(color: Colors.black, fontSize: 14, fontWeight: FontWeight.bold, fontFamily: 'SFProTextRegular'),
                       fixedSize: Size(widgetWidth, 40)
                     ),
-                    child: const Text('SIGN IN'),
+                    child: const Text('SIGN IN', style: TextStyle(color: Colors.black, fontSize: 14, fontWeight: FontWeight.bold, fontFamily: 'SFProTextRegular'),),
                   ),
                   Padding(
                     padding: const EdgeInsets.fromLTRB(0, 12, 0, 0),

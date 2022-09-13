@@ -20,8 +20,8 @@ class ButtonWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return ElevatedButton(
       style: ElevatedButton.styleFrom(
+
         primary: CustomColors.yellow,
-        fixedSize: const Size.fromHeight(40),
     ),
       onPressed: onPressed,
       child: Text(

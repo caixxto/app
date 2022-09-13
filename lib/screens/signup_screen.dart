@@ -12,15 +12,10 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-class SignUpScreen extends StatefulWidget {
-  const SignUpScreen({Key? key}) : super(key: key);
-
-  @override
-  State<StatefulWidget> createState() => _SignUpScreenState();
-}
-
-class _SignUpScreenState extends State<StatefulWidget> {
+class SignUpScreen extends StatelessWidget {
   final _formKey = GlobalKey<FormState>();
+
+  SignUpScreen({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -50,113 +45,103 @@ class _SignUpScreenState extends State<StatefulWidget> {
               BlocProvider(
                 create: (context) =>
                     LoginBloc(authRepo: context.read<AuthRepository>()),
-                child: _form(),
+                child: BlocListener<LoginBloc, LoginState>(
+                  listener: (context, state) {
+                    final formStatus = state.formStatus;
+                    if (formStatus is SubmissionFailed) {
+                      //error
+                    }
+                  },
+                  child: Form(
+                    key: _formKey,
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        const Padding(
+                            padding: EdgeInsets.fromLTRB(16, 32, 0, 8),
+                            child: Text(
+                              'NAME',
+                              style: CustomStyles.grey14,
+                            )),
+                        BlocBuilder<LoginBloc, LoginState>(
+                            builder: (context, state) {
+                          return TextFieldWidget(
+                            keyboardType: TextInputType.name,
+                            textInputAction: TextInputAction.done,
+                            validator: (value) => state.isValidUsername
+                                ? null
+                                : 'Username is too short',
+                            onChanged: (value) => context.read<LoginBloc>().add(
+                                  LoginUsernameChanged(username: value),
+                                ),
+                          );
+                        }),
+                        const Padding(
+                            padding: EdgeInsets.fromLTRB(16, 24, 0, 8),
+                            child: Text(
+                              'EMAIL',
+                              style: CustomStyles.grey14,
+                            )),
+                        BlocBuilder<LoginBloc, LoginState>(
+                            builder: (context, state) {
+                          return TextFieldWidget(
+                            keyboardType: TextInputType.emailAddress,
+                            textInputAction: TextInputAction.done,
+                            validator: (value) =>
+                                state.isValidEmail ? null : 'Email is invalid',
+                            onChanged: (value) => context.read<LoginBloc>().add(
+                                  LoginEmailChanged(email: value),
+                                ),
+                          );
+                        }),
+                        const Padding(
+                            padding: EdgeInsets.fromLTRB(16, 24, 0, 8),
+                            child: Text(
+                              'PASSWORD',
+                              style: CustomStyles.grey14,
+                            )),
+                        BlocBuilder<LoginBloc, LoginState>(
+                            builder: (context, state) {
+                          return TextFieldWidget(
+                            keyboardType: TextInputType.visiblePassword,
+                            textInputAction: TextInputAction.done,
+                            validator: (value) => state.isValidPassword
+                                ? null
+                                : 'Password is invalid',
+                            onChanged: (value) => context.read<LoginBloc>().add(
+                                  LoginPasswordChanged(password: value),
+                                ),
+                          );
+                        }),
+                      ],
+                    ),
+                  ),
+                ),
               ),
               Align(
                 alignment: Alignment.bottomCenter,
-                child: _loginButton(),
+                child: SizedBox(
+                  child: BlocBuilder<LoginBloc, LoginState>(
+                      builder: (context, state) {
+                    return ButtonWidget(
+                      onPressed: () {
+                        if (_formKey.currentState!.validate()) {
+                          context.read<LoginBloc>().add(LoginSubmitted());
+                          Navigator.of(context).push(MaterialPageRoute(
+                            builder: (context) => const HomeScreen(),
+                          ));
+                        }
+                      },
+                      text: 'SIGN UP',
+                    );
+                  }),
+                  width: double.infinity,
+                ),
               )
             ],
           ),
         ),
       ),
     );
-  }
-
-  Widget _form() {
-    return BlocListener<LoginBloc, LoginState>(
-      listener: (context, state) {
-        final formStatus = state.formStatus;
-        if (formStatus is SubmissionFailed) {
-          //error
-        }
-      },
-      child: Form(
-        key: _formKey,
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            const Padding(
-                padding: EdgeInsets.fromLTRB(16, 32, 0, 8),
-                child: Text(
-                  'NAME',
-                  style: CustomStyles.grey14,
-                )),
-            _usernameField(),
-            const Padding(
-                padding: EdgeInsets.fromLTRB(16, 24, 0, 8),
-                child: Text(
-                  'EMAIL',
-                  style: CustomStyles.grey14,
-                )),
-            _emailField(),
-            const Padding(
-                padding: EdgeInsets.fromLTRB(16, 24, 0, 8),
-                child: Text(
-                  'PASSWORD',
-                  style: CustomStyles.grey14,
-                )),
-            _passwordField(),
-          ],
-        ),
-      ),
-    );
-  }
-
-  Widget _emailField() {
-    return BlocBuilder<LoginBloc, LoginState>(builder: (context, state) {
-      return TextFieldWidget(
-        keyboardType: TextInputType.emailAddress,
-        textInputAction: TextInputAction.done,
-        validator: (value) => state.isValidEmail ? null : 'Email is invalid',
-        onChanged: (value) => context.read<LoginBloc>().add(
-              LoginEmailChanged(email: value),
-            ),
-      );
-    });
-  }
-
-  Widget _usernameField() {
-    return BlocBuilder<LoginBloc, LoginState>(builder: (context, state) {
-      return TextFieldWidget(
-        keyboardType: TextInputType.name,
-        textInputAction: TextInputAction.done,
-        validator: (value) =>
-            state.isValidUsername ? null : 'Username is too short',
-        onChanged: (value) => context.read<LoginBloc>().add(
-              LoginUsernameChanged(username: value),
-            ),
-      );
-    });
-  }
-
-  Widget _passwordField() {
-    return BlocBuilder<LoginBloc, LoginState>(builder: (context, state) {
-      return TextFieldWidget(
-        keyboardType: TextInputType.visiblePassword,
-        textInputAction: TextInputAction.done,
-        validator: (value) =>
-            state.isValidPassword ? null : 'Password is invalid',
-        onChanged: (value) => context.read<LoginBloc>().add(
-              LoginPasswordChanged(password: value),
-            ),
-      );
-    });
-  }
-
-  Widget _loginButton() {
-    return BlocBuilder<LoginBloc, LoginState>(builder: (context, state) {
-      return ButtonWidget(
-              onPressed: () {
-                if (_formKey.currentState!.validate()) {
-                  context.read<LoginBloc>().add(LoginSubmitted());
-                  Navigator.of(context).push(MaterialPageRoute(
-                    builder: (context) => HomeScreen(),
-                  ));
-                }
-              },
-              text: 'SIGN UP',
-            );
-    });
   }
 }
