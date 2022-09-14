@@ -2,7 +2,7 @@ import 'package:app/styles/custom_theme.dart';
 import 'package:app/screens/providers/auth_bloc/form_submission_status.dart';
 import 'package:flutter/material.dart';
 
-class LoginState {
+class LoginState  {
 
   final String username;
   bool get isValidUsername {
@@ -14,6 +14,9 @@ class LoginState {
     RegExp regex =
     RegExp(r'^(?=.*?[A-Z])(?=.*?[!@#\$&*~]).{10,16}$');
    return regex.hasMatch(password) ? true : false;
+   }
+   bool get isEmptyPassword {
+    return password.isEmpty ? true : false;
    }
 
   final String email;
@@ -31,6 +34,8 @@ class LoginState {
     this.formStatus = const InitialFormStatus(),
   });
 
+
+
   LoginState copyWith({
     String? username,
     String? password,
@@ -45,3 +50,14 @@ class LoginState {
     );
   }
 }
+
+abstract class TextFieldState {}
+
+class ButtonInactiveState extends TextFieldState {}
+
+class ButtonActiveState extends TextFieldState {}
+
+
+
+
+

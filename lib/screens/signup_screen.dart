@@ -103,6 +103,7 @@ class SignUpScreen extends StatelessWidget {
                         BlocBuilder<LoginBloc, LoginState>(
                             builder: (context, state) {
                           return TextFieldWidget(
+                            obscureText: true,
                             keyboardType: TextInputType.visiblePassword,
                             textInputAction: TextInputAction.done,
                             validator: (value) => state.isValidPassword
@@ -124,9 +125,9 @@ class SignUpScreen extends StatelessWidget {
                   child: BlocBuilder<LoginBloc, LoginState>(
                       builder: (context, state) {
                     return ButtonWidget(
-                      onPressed: () {
+                      onPressed: state.isEmptyPassword ? null : () {
                         if (_formKey.currentState!.validate()) {
-                          context.read<LoginBloc>().add(LoginSubmitted());
+                          //context.read<LoginBloc>().add(LoginSubmitted());
                           Navigator.of(context).push(MaterialPageRoute(
                             builder: (context) => const HomeScreen(),
                           ));

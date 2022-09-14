@@ -11,6 +11,7 @@ class TextFieldWidget extends StatelessWidget {
   TextInputAction? textInputAction;
   ValueChanged<String>? onChanged;
   FormFieldValidator<String>? validator;
+  TextEditingController? controller;
 
 
   TextFieldWidget({
@@ -19,6 +20,7 @@ class TextFieldWidget extends StatelessWidget {
     required this.textInputAction,
     required this.onChanged,
     required this.validator,
+    this.controller = null,
   });
 
   @override
@@ -46,6 +48,7 @@ class TextFieldWidget extends StatelessWidget {
         textInputAction: textInputAction,
         onChanged: onChanged,
         validator: validator,
+        controller: controller,
       );
   }
 }

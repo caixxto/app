@@ -2,15 +2,12 @@ import 'package:app/screens/providers/auth_bloc/auth_repository.dart';
 import 'package:app/screens/providers/auth_bloc/login_model.dart';
 import 'package:app/screens/providers/bloc/text_model.dart';
 import 'package:app/screens/providers/new_todo_bloc/todo_model.dart';
-import 'package:app/screens/providers/sign_in_provider.dart';
 import 'package:app/screens/signin_screen.dart';
 import 'package:app/screens/signup_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:provider/provider.dart';
 import 'screens/authorization_screen.dart';
 import 'screens/home_screen.dart';
-import 'screens/main_screen.dart';
 import 'screens/new_todo_screen.dart';
 
 void main() {
@@ -26,6 +23,13 @@ void main() {
         BlocProvider(
           create: (_) => LoginBloc(authRepo: AuthRepository()),
           child: SignUpScreen(),
+        ),
+        BlocProvider(
+          create: (_) => LoginBloc(authRepo: AuthRepository()),
+          child: SignInScreen(),
+        ),
+        BlocProvider(
+          create: (_) => TextFieldBloc(),
         ),
       ],
       child: const MyApp(),
@@ -48,7 +52,10 @@ class MyApp extends StatelessWidget {
       routes: {
         '/home': (context) => HomeScreen(),
         '/start': (context) => AutoScreen(),
-        '/sign_in': (context) => SighInScreen(),
+        '/sign_in': (context) => RepositoryProvider(
+          create: (context) => AuthRepository(),
+          child: SignInScreen(),
+        ),
         '/sign_up': (context) => RepositoryProvider(
               create: (context) => AuthRepository(),
               child: SignUpScreen(),

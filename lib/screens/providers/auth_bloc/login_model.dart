@@ -3,6 +3,7 @@ import 'package:app/screens/providers/auth_bloc/auth_repository.dart';
 import 'package:app/screens/providers/auth_bloc/form_submission_status.dart';
 import 'package:app/screens/providers/auth_bloc/login_event.dart';
 import 'package:app/screens/providers/auth_bloc/login_state.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:app/screens/providers/auth_bloc/auth_repository.dart';
 
@@ -26,8 +27,21 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
     on<LoginSubmitted>((event, emit) {
       emit(state.copyWith(formStatus: FormSubmitting()));
     });
+  }
+  }
 
-    }
+  class TextFieldBloc extends Bloc<TextFieldEvent, bool> {
+  TextFieldBloc() : super(true) {
+
+    // on<TextFieldChanged>((event, emit) {
+    //   emit(ButtonActiveState());
+    // });
+
+    on<TextFieldChanged>((event, emit) {
+      emit(state == false);
+
+    });
+}
   }
 
 

@@ -1,4 +1,5 @@
 import 'package:app/styles/custom_theme.dart';
+import 'package:flutter/cupertino.dart';
 
 abstract class LoginEvent {}
 
@@ -21,4 +22,13 @@ class LoginEmailChanged extends LoginEvent {
 }
 
 class LoginSubmitted extends LoginEvent {}
+
+abstract class TextFieldEvent {}
+
+class TextFieldChanged extends TextFieldEvent {
+  final String password;
+
+  TextFieldChanged({required this.password});
+}
+
 
