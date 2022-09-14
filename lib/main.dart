@@ -28,9 +28,6 @@ void main() {
           create: (_) => LoginBloc(authRepo: AuthRepository()),
           child: SignInScreen(),
         ),
-        BlocProvider(
-          create: (_) => TextFieldBloc(),
-        ),
       ],
       child: const MyApp(),
     ),

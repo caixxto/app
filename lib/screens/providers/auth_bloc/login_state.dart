@@ -8,6 +8,9 @@ class LoginState  {
   bool get isValidUsername {
    return username.length > 3 ? true : false;
   }
+  bool get isEmptyUsername {
+    return username.isEmpty ? true : false;
+  }
 
   final String password;
   bool get isValidPassword {
@@ -23,6 +26,9 @@ class LoginState  {
   bool get isValidEmail {
     RegExp regex = RegExp(r'^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$');
     return regex.hasMatch(email) ? true : false;
+  }
+  bool get isEmptyEmail {
+    return email.isEmpty ? true : false;
   }
 
   final FormSubmissionStatus formStatus;
@@ -51,11 +57,6 @@ class LoginState  {
   }
 }
 
-abstract class TextFieldState {}
-
-class ButtonInactiveState extends TextFieldState {}
-
-class ButtonActiveState extends TextFieldState {}
 
 
 

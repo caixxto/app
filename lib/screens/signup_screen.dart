@@ -37,112 +37,109 @@ class SignUpScreen extends StatelessWidget {
             },
           ),
         ),
-        body: Container(
-          color: CustomColors.darkGreyBackground,
-          padding: const EdgeInsets.only(left: 16, right: 16, bottom: 24),
-          child: Stack(
-            children: [
-              BlocProvider(
-                create: (context) =>
-                    LoginBloc(authRepo: context.read<AuthRepository>()),
-                child: BlocListener<LoginBloc, LoginState>(
-                  listener: (context, state) {
-                    final formStatus = state.formStatus;
-                    if (formStatus is SubmissionFailed) {
-                      //error
+        body:  BlocProvider(
+    create: (context) =>
+    LoginBloc(authRepo: context.read<AuthRepository>()),
+          child: BlocBuilder<LoginBloc, LoginState>(
+    builder: (context, state) {
+      return Container(
+        color: CustomColors.darkGreyBackground,
+        padding: const EdgeInsets.only(left: 16, right: 16, bottom: 24),
+        child: Stack(
+          children: [Form(
+            key: _formKey,
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                const Padding(
+                    padding: EdgeInsets.fromLTRB(16, 32, 0, 8),
+                    child: Text(
+                      'NAME',
+                      style: CustomStyles.grey14,
+                    )),
+                BlocBuilder<LoginBloc, LoginState>(
+                    builder: (context, state) {
+                      return TextFieldWidget(
+                        keyboardType: TextInputType.name,
+                        textInputAction: TextInputAction.done,
+                        validator: (value) =>
+                        state.isValidUsername
+                            ? null
+                            : 'Username is too short',
+                        onChanged: (value) =>
+                            context.read<LoginBloc>().add(
+                              LoginUsernameChanged(username: value),
+                            ),
+                      );
+                    }),
+                const Padding(
+                    padding: EdgeInsets.fromLTRB(16, 24, 0, 8),
+                    child: Text(
+                      'EMAIL',
+                      style: CustomStyles.grey14,
+                    )),
+                BlocBuilder<LoginBloc, LoginState>(
+                    builder: (context, state) {
+                      return TextFieldWidget(
+                        keyboardType: TextInputType.emailAddress,
+                        textInputAction: TextInputAction.done,
+                        validator: (value) =>
+                        state.isValidEmail ? null : 'Email is invalid',
+                        onChanged: (value) =>
+                            context.read<LoginBloc>().add(
+                              LoginEmailChanged(email: value),
+                            ),
+                      );
+                    }),
+                const Padding(
+                    padding: EdgeInsets.fromLTRB(16, 24, 0, 8),
+                    child: Text(
+                      'PASSWORD',
+                      style: CustomStyles.grey14,
+                    )),
+                BlocBuilder<LoginBloc, LoginState>(
+                    builder: (context, state) {
+                      return TextFieldWidget(
+                        obscureText: true,
+                        keyboardType: TextInputType.visiblePassword,
+                        textInputAction: TextInputAction.done,
+                        validator: (value) =>
+                        state.isValidPassword
+                            ? null
+                            : 'Password is invalid',
+                        onChanged: (value) =>
+                            context.read<LoginBloc>().add(
+                              LoginPasswordChanged(password: value),
+                            ),
+                      );
+                    }),
+              ],
+            ),
+          ),
+            Align(
+              alignment: Alignment.bottomCenter,
+              child: SizedBox(
+                child: ButtonWidget(
+                  onPressed: (state.isEmptyPassword || state.isEmptyEmail || state.isEmptyUsername) ? null : () {
+                    if (_formKey.currentState!.validate()) {
+                      //context.read<LoginBloc>().add(LoginSubmitted());
+                      Navigator.of(context).push(MaterialPageRoute(
+                        builder: (context) => const HomeScreen(),
+                      ));
                     }
                   },
-                  child: Form(
-                    key: _formKey,
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        const Padding(
-                            padding: EdgeInsets.fromLTRB(16, 32, 0, 8),
-                            child: Text(
-                              'NAME',
-                              style: CustomStyles.grey14,
-                            )),
-                        BlocBuilder<LoginBloc, LoginState>(
-                            builder: (context, state) {
-                          return TextFieldWidget(
-                            keyboardType: TextInputType.name,
-                            textInputAction: TextInputAction.done,
-                            validator: (value) => state.isValidUsername
-                                ? null
-                                : 'Username is too short',
-                            onChanged: (value) => context.read<LoginBloc>().add(
-                                  LoginUsernameChanged(username: value),
-                                ),
-                          );
-                        }),
-                        const Padding(
-                            padding: EdgeInsets.fromLTRB(16, 24, 0, 8),
-                            child: Text(
-                              'EMAIL',
-                              style: CustomStyles.grey14,
-                            )),
-                        BlocBuilder<LoginBloc, LoginState>(
-                            builder: (context, state) {
-                          return TextFieldWidget(
-                            keyboardType: TextInputType.emailAddress,
-                            textInputAction: TextInputAction.done,
-                            validator: (value) =>
-                                state.isValidEmail ? null : 'Email is invalid',
-                            onChanged: (value) => context.read<LoginBloc>().add(
-                                  LoginEmailChanged(email: value),
-                                ),
-                          );
-                        }),
-                        const Padding(
-                            padding: EdgeInsets.fromLTRB(16, 24, 0, 8),
-                            child: Text(
-                              'PASSWORD',
-                              style: CustomStyles.grey14,
-                            )),
-                        BlocBuilder<LoginBloc, LoginState>(
-                            builder: (context, state) {
-                          return TextFieldWidget(
-                            obscureText: true,
-                            keyboardType: TextInputType.visiblePassword,
-                            textInputAction: TextInputAction.done,
-                            validator: (value) => state.isValidPassword
-                                ? null
-                                : 'Password is invalid',
-                            onChanged: (value) => context.read<LoginBloc>().add(
-                                  LoginPasswordChanged(password: value),
-                                ),
-                          );
-                        }),
-                      ],
-                    ),
-                  ),
+                  text: 'SIGN UP',
                 ),
+                width: double.infinity,
               ),
-              Align(
-                alignment: Alignment.bottomCenter,
-                child: SizedBox(
-                  child: BlocBuilder<LoginBloc, LoginState>(
-                      builder: (context, state) {
-                    return ButtonWidget(
-                      onPressed: state.isEmptyPassword ? null : () {
-                        if (_formKey.currentState!.validate()) {
-                          //context.read<LoginBloc>().add(LoginSubmitted());
-                          Navigator.of(context).push(MaterialPageRoute(
-                            builder: (context) => const HomeScreen(),
-                          ));
-                        }
-                      },
-                      text: 'SIGN UP',
-                    );
-                  }),
-                  width: double.infinity,
-                ),
-              )
-            ],
-          ),
+            )
+          ],
         ),
-      ),
-    );
+      );
+    }
+    ),
+              ),
+        ),
+      );
   }
 }

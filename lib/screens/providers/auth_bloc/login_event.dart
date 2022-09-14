@@ -23,12 +23,6 @@ class LoginEmailChanged extends LoginEvent {
 
 class LoginSubmitted extends LoginEvent {}
 
-abstract class TextFieldEvent {}
 
-class TextFieldChanged extends TextFieldEvent {
-  final String password;
-
-  TextFieldChanged({required this.password});
-}
 
 

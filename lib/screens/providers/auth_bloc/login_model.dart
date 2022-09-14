@@ -30,19 +30,6 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
   }
   }
 
-  class TextFieldBloc extends Bloc<TextFieldEvent, bool> {
-  TextFieldBloc() : super(true) {
-
-    // on<TextFieldChanged>((event, emit) {
-    //   emit(ButtonActiveState());
-    // });
-
-    on<TextFieldChanged>((event, emit) {
-      emit(state == false);
-
-    });
-}
-  }
 
 
 
