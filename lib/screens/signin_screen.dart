@@ -22,7 +22,7 @@ class SignInScreen extends StatelessWidget {
       theme: ThemeData(primaryColor: Colors.yellow), //?
       home: Scaffold(
         appBar: AppBar(
-          title: const Text('Sign Up'),
+          title: const Text('Sign In'),
           centerTitle: true,
           backgroundColor: CustomColors.yellow,
           titleTextStyle: CustomStyles.black16,
@@ -106,7 +106,7 @@ class SignInScreen extends StatelessWidget {
                                 ));
                               }
                             },
-                            text: 'SIGN UP',
+                            text: 'SIGN IN',
                           ),
                           width: double.infinity,
                         ),
