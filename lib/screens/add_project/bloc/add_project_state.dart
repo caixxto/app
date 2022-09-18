@@ -6,8 +6,10 @@ class NewProjectState {
    int? index;
 
   IconData get changeIcon {
-
-
+    if (index == 1) {
+      return Icons.height;
+    }
+    return Icons.add;
   }
 
    NewProjectState copyWith({
