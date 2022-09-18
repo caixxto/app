@@ -124,7 +124,7 @@ class SignUpScreen extends StatelessWidget {
                     if (_formKey.currentState!.validate()) {
                       //context.read<LoginBloc>().add(LoginSubmitted());
                       Navigator.of(context).push(MaterialPageRoute(
-                        builder: (context) => const HomeScreen(),
+                        builder: (context) =>  HomeScreen(),
                       ));
                     }
                   },

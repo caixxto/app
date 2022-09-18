@@ -1,6 +1,8 @@
 import 'package:app/screens/add_project/bloc/add_project_bloc.dart';
 import 'package:app/screens/add_project/bloc/add_project_event.dart';
 import 'package:app/screens/add_project/bloc/add_project_state.dart';
+import 'package:app/screens/add_project/projects_list.dart';
+import 'package:app/screens/home/home_screen.dart';
 import 'package:app/styles/colors.dart';
 import 'package:app/styles/styles.dart';
 import 'package:app/widgets/button.dart';
@@ -15,6 +17,7 @@ class AddNewProject extends StatelessWidget {
   AddNewProject({Key? key}) : super(key: key);
 
   Color circleColor = Colors.white;
+  TextEditingController? _controller;
 
 
   Color _getColor(index) {
@@ -67,8 +70,8 @@ class AddNewProject extends StatelessWidget {
         ),
       ),
       body: BlocProvider(
-        create: (context) => NewProjectBloc(),
-        child: BlocBuilder<NewProjectBloc, NewProjectState>(
+        create: (context) => ProjectBloc(),
+        child: BlocBuilder<ProjectBloc, ProjectState>(
             builder: (context, state) {
           return Container(
             color: CustomColors.background,
@@ -92,8 +95,10 @@ class AddNewProject extends StatelessWidget {
                         TextFieldWidget(
                             keyboardType: TextInputType.name,
                             textInputAction: TextInputAction.done,
-                            onChanged: null,
-                            validator: null),
+                            onChanged: (text) => context.read<ProjectBloc>().add(TextChanged(text: text)),
+                            validator: null,
+                          controller: _controller,
+                        ),
                         const SizedBox(height: 24),
                         const Padding(
                           padding: EdgeInsets.only(left: 16),
@@ -107,80 +112,17 @@ class AddNewProject extends StatelessWidget {
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: List.generate(8, (index) {
                             return ColorCircleWidget(
-                              onTap: () { context.read<NewProjectBloc>().add(ColorChangedEvent(index: index));},
+                              onTap: () {
+                                //context.read<NewProjectBloc>().add(ColorChangedEvent(index: index));
+                                 },
                               color: _getColor(index),
-                              icon: state.changeIcon,
+                              icon: Icons.access_time,
+                              //state.changeIcon,
                               index: index,
                             );
                           }),
                         )
 
-                        // GestureDetector(
-                        //     onTap: () => context.read<NewProjectBloc>().add(ColorChangedEvent(icon: Icons.event)),
-                        //     child: Icon(
-                        //       state.changeIcon,
-                        //       color: Colors.yellow,
-                        //       size: 30,
-                        //     )
-                        // ),
-                        // GestureDetector(
-                        //     onTap: () {
-                        //       context.read<NewProjectBloc>().add(ColorChangedEvent(icon: Icons.circle_rounded));
-                        //     },
-                        //     child: Icon(
-                        //      state.changeIcon,
-                        //       color: Colors.green,
-                        //       size: 30,
-                        //     )
-                        // ),
-                        // GestureDetector(
-                        //     onTap: () {},
-                        //     child: Icon(
-                        //       Icons.circle_rounded,
-                        //       color: Colors.red,
-                        //       size: 30,
-                        //     )
-                        // ),
-                        // GestureDetector(
-                        //     onTap: () {},
-                        //     child: Icon(
-                        //       Icons.circle_rounded,
-                        //       color: Colors.orange,
-                        //       size: 30,
-                        //     )
-                        // ),
-                        // GestureDetector(
-                        //     onTap: () {},
-                        //     child: Icon(
-                        //       Icons.circle_rounded,
-                        //       color: Colors.purple,
-                        //       size: 30,
-                        //     )
-                        // ),
-                        // GestureDetector(
-                        //     onTap: () {},
-                        //     child: Icon(
-                        //       Icons.circle_rounded,
-                        //       color: Colors.lightBlueAccent,
-                        //       size: 30,
-                        //     )
-                        // ),
-                        // GestureDetector(
-                        //     onTap: () {},
-                        //     child: Icon(
-                        //       Icons.circle_rounded,
-                        //       color: Colors.blue,
-                        //       size: 30,
-                        //     )
-                        // ),
-                        // GestureDetector(
-                        //     onTap: () {},
-                        //     child: Icon(
-                        //       Icons.circle_rounded,
-                        //       color: Colors.pink,
-                        //       size: 30,
-                        //     )
-                        // ),
                       ],
                     ),
                   ),
@@ -188,15 +130,14 @@ class AddNewProject extends StatelessWidget {
                     alignment: Alignment.bottomCenter,
                     child: SizedBox(
                       child: ButtonWidget(
-                        onPressed: () {},
-                        // (state.isEmptyPassword || state.isEmptyEmail) ? null : () {
-                        //   if (_formKey.currentState!.validate()) {
-                        //     //context.read<LoginBloc>().add(LoginSubmitted());
-                        //     Navigator.of(context).push(MaterialPageRoute(
-                        //       builder: (context) => const HomeScreen(),
-                        //     ));
-                        //   }
-                        // },
+                        onPressed: state.isEmpty ? null : ()
+                        {
+                          context.read<ProjectBloc>().add(AddProject(Project(text: state.text, icon: Icons.done)));
+                          // Navigator.of(context).push(MaterialPageRoute(
+                          //   builder: (context) =>  HomeScreen(),
+                          // ));
+                          Navigator.pop(context);
+                        },
                         text: 'ADD PROJECT',
                       ),
                       width: double.infinity,

@@ -1,4 +1,5 @@
 import 'package:app/screens/add_project/add_project_screen.dart';
+import 'package:app/screens/add_project/bloc/add_project_bloc.dart';
 import 'package:app/screens/providers/auth_bloc/auth_repository.dart';
 import 'package:app/screens/providers/auth_bloc/login_model.dart';
 import 'package:app/screens/providers/bloc/text_model.dart';
@@ -29,6 +30,10 @@ void main() {
           create: (_) => LoginBloc(authRepo: AuthRepository()),
           child: SignInScreen(),
         ),
+        BlocProvider(
+          create: (_) => ProjectBloc(),
+          child: HomeScreen(),
+        ),
       ],
       child: const MyApp(),
     ),
@@ -46,7 +51,7 @@ class MyApp extends StatelessWidget {
       //   create: (context) => AuthRepository(),
       //   child: SighUpScreen(),
       // ),
-      initialRoute: '/new_project',
+      initialRoute: '/home',
       routes: {
         '/home': (context) => HomeScreen(),
         '/start': (context) => AutoScreen(),
