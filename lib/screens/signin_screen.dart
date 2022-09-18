@@ -1,5 +1,5 @@
 import 'package:app/styles/colors.dart';
-import 'package:app/screens/home_screen.dart';
+import 'package:app/screens/home/home_screen.dart';
 import 'package:app/screens/providers/auth_bloc/auth_repository.dart';
 import 'package:app/screens/providers/auth_bloc/login_event.dart';
 import 'package:app/screens/providers/auth_bloc/login_model.dart';
@@ -45,7 +45,8 @@ class SignInScreen extends StatelessWidget {
                   color: CustomColors.darkGreyBackground,
                   padding: const EdgeInsets.only(left: 16, right: 16, bottom: 24),
                   child: Stack(
-                    children: [Form(
+                    children: [
+                      Form(
                       key: _formKey,
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,

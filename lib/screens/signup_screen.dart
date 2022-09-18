@@ -1,5 +1,5 @@
 import 'package:app/styles/colors.dart';
-import 'package:app/screens/home_screen.dart';
+import 'package:app/screens/home/home_screen.dart';
 import 'package:app/screens/providers/auth_bloc/auth_repository.dart';
 import 'package:app/screens/providers/auth_bloc/form_submission_status.dart';
 import 'package:app/screens/providers/auth_bloc/login_event.dart';

@@ -7,6 +7,9 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:app/screens/providers/auth_bloc/auth_repository.dart';
 
+import 'auth_repository.dart';
+import 'form_submission_status.dart';
+
 class LoginBloc extends Bloc<LoginEvent, LoginState> {
   final AuthRepository authRepo;
   LoginBloc({required this.authRepo}) : super(LoginState()) {

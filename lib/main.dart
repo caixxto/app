@@ -1,13 +1,14 @@
+import 'package:app/screens/add_project/add_project_screen.dart';
 import 'package:app/screens/providers/auth_bloc/auth_repository.dart';
 import 'package:app/screens/providers/auth_bloc/login_model.dart';
 import 'package:app/screens/providers/bloc/text_model.dart';
-import 'package:app/screens/providers/new_todo_bloc/todo_model.dart';
+import 'package:app/screens/providers/todo_bloc/todo_bloc.dart';
 import 'package:app/screens/signin_screen.dart';
 import 'package:app/screens/signup_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'screens/authorization_screen.dart';
-import 'screens/home_screen.dart';
+import 'screens/home/home_screen.dart';
 import 'screens/new_todo_screen.dart';
 
 void main() {
@@ -18,7 +19,7 @@ void main() {
           create: (_) => TextModel(),
         ),
         BlocProvider(
-          create: (_) => ToDoModel(),
+          create: (_) => ToDoBloc(),
         ),
         BlocProvider(
           create: (_) => LoginBloc(authRepo: AuthRepository()),
@@ -45,7 +46,7 @@ class MyApp extends StatelessWidget {
       //   create: (context) => AuthRepository(),
       //   child: SighUpScreen(),
       // ),
-      initialRoute: '/start',
+      initialRoute: '/new_project',
       routes: {
         '/home': (context) => HomeScreen(),
         '/start': (context) => AutoScreen(),
@@ -58,6 +59,7 @@ class MyApp extends StatelessWidget {
               child: SignUpScreen(),
         ),
         '/todo': (context) => NewToDo(),
+        '/new_project': (context) => AddNewProject(),
       },
     );
   }

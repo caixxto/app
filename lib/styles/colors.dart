@@ -5,7 +5,6 @@ class CustomColors {
   static const divider = Color.fromRGBO(84, 84, 88, 0.65);
   static const listTile = Color.fromRGBO(44, 44, 46, 1);
   static const buttons = Color.fromRGBO(255, 214, 10, 1);
-  static const theme = Color.fromRGBO(255, 214, 10, 1);
   static const textWhite = Color.fromRGBO(255, 255, 255, 1);
   static const darkGrey = Color.fromRGBO(44, 44, 46, 1);
   static const lightGrey = Color.fromRGBO(235, 235, 245, 0.6);

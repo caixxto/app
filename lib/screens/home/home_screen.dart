@@ -1,25 +1,22 @@
 import 'package:app/styles/colors.dart';
 import 'package:app/screens/new_todo_screen.dart';
+import 'package:app/styles/styles.dart';
 import 'package:app/widgets/divider.dart';
 import 'package:app/widgets/list_tile_homepage.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
-class HomeScreen extends StatefulWidget {
+class HomeScreen extends StatelessWidget {
   const HomeScreen({Key? key}) : super(key: key);
 
-  @override
-  State<StatefulWidget> createState() => _HomeScreenState();
-}
-
-class _HomeScreenState extends State<StatefulWidget> {
   final double buttonSide = 56;
+  final String name = 'Name';
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
-          backgroundColor: CustomColors.theme,
+          backgroundColor: CustomColors.yellow,
           actions: [
             IconButton(
               padding: const EdgeInsets.only(right: 13.51),
@@ -40,15 +37,11 @@ class _HomeScreenState extends State<StatefulWidget> {
             mainAxisAlignment: MainAxisAlignment.start,
             mainAxisSize: MainAxisSize.max,
             children: [
-              const Padding(
-                padding: EdgeInsets.only(left: 32, top: 30, bottom: 30),
+               Padding(
+                padding: const EdgeInsets.only(left: 32, top: 30, bottom: 30),
                 child: Text(
-                  'Hello Alex!',
-                  style: TextStyle(
-                      color: Colors.white,
-                      fontSize: 22,
-                      fontWeight: FontWeight.bold,
-                      fontFamily: 'SFProTextRegular'),
+                  'Hello $name! 👋',
+                  style: CustomStyles.white22,
                 ),
               ),
               Padding(
@@ -112,42 +105,12 @@ class _HomeScreenState extends State<StatefulWidget> {
                       borderRadius: BorderRadius.all(Radius.circular(12)),
                     ),
 //CHILD COLUMN
-                    child: Column(
-                      mainAxisSize: MainAxisSize.min,
-                      //crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        CustomListTile(
-                            title: 'Personal',
-                            icon: Icons.brightness_1_rounded,
-                            num: 12,
-                            iconColor: Colors.yellow,
-                            topRadius: 12,
-                            bottomRadius: 0),
-                        const DividerWidget(),
-                        CustomListTile(
-                            title: 'Work',
-                            icon: Icons.brightness_1_rounded,
-                            num: 4,
-                            iconColor: Colors.orange,
-                            topRadius: 0,
-                            bottomRadius: 0),
-                        const DividerWidget(),
-                        CustomListTile(
-                            title: 'Design',
-                            icon: Icons.brightness_1_sharp,
-                            num: 4,
-                            iconColor: Colors.purple,
-                            topRadius: 0,
-                            bottomRadius: 0),
-                        const DividerWidget(),
-                        CustomListTile(
-                            title: 'Study',
-                            icon: Icons.brightness_1_rounded,
-                            num: 8,
-                            iconColor: Colors.green,
-                            topRadius: 0,
-                            bottomRadius: 12),
-                      ],
+                    child: ListView.builder(
+                      itemCount: 1,
+                      itemBuilder: (BuildContext context, int index) {
+                        return Text('s');
+                    }
+
                     ),
                   ),
                 ),
@@ -160,7 +123,7 @@ class _HomeScreenState extends State<StatefulWidget> {
           child: FloatingActionButton(
             onPressed: () {
               Navigator.of(context).push(MaterialPageRoute(
-                builder: (_) => const NewToDo(),
+                builder: (_) => NewToDo(),
               ));
             },
             child: const Icon(
@@ -176,7 +139,7 @@ class _HomeScreenState extends State<StatefulWidget> {
 
   Widget menu() => Drawer(
         child: Container(
-          color: CustomColors.theme,
+          color: CustomColors.yellow,
           padding: const EdgeInsets.only(top: 145, left: 40),
           child: Column(
             mainAxisAlignment: MainAxisAlignment.start,

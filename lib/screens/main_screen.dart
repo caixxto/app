@@ -17,7 +17,7 @@ class _MainScreenState extends State<StatefulWidget> {
     final double screenWidth = size.width;
     final double screenHeight = size.height;
     return Scaffold(
-      backgroundColor: CustomColors.theme,
+      backgroundColor: CustomColors.yellow,
       body: Stack(
         alignment: AlignmentDirectional.center,
         children: [
