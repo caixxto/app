@@ -16,8 +16,8 @@ class CustomListTile extends StatelessWidget {
     required this.icon,
     required this.num,
     required this.iconColor,
-    required this.topRadius,
-    required this.bottomRadius,
+    this.topRadius = 12,
+    this.bottomRadius = 12,
   });
 
   @override

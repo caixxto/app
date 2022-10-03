@@ -2,12 +2,31 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:table_calendar/table_calendar.dart';
 
-class CalendarWidget extends StatelessWidget {
-  const CalendarWidget({Key? key}) : super(key: key);
+class CalendarWidget extends StatefulWidget {
+  @override
+  _CalendarState createState() => _CalendarState();
+}
+
+class _CalendarState extends State<CalendarWidget> {
+
+ // const CalendarWidget({Key? key, this.onDaySelected}) : super(key: key);
+  DateTime selectedDay = DateTime.now();
+  DateTime focusedDay = DateTime.now();
+
+  _CalendarState();
 
   @override
   Widget build(BuildContext context) {
     return TableCalendar(
+      onDaySelected: (DateTime selectDay, DateTime focusDay) {
+        setState(() {
+          selectedDay = selectDay;
+          focusedDay = focusDay;
+        });
+      },
+        selectedDayPredicate: (DateTime date) {
+        return isSameDay(selectedDay, date);
+        },
         headerStyle: const HeaderStyle(
           decoration: BoxDecoration(
             color: Color.fromRGBO(44, 44, 46, 1),
@@ -69,10 +88,11 @@ class CalendarWidget extends StatelessWidget {
           ),
 
         ),
-        
-        focusedDay: DateTime.now(), 
-        firstDay: DateTime.utc(2012, 10, 16), 
-        lastDay: DateTime.utc(2030, 3, 14));
+
+        focusedDay: focusedDay,
+        firstDay: DateTime.utc(1990),
+        lastDay: DateTime.utc(2050)
+    );
   }
 
 }

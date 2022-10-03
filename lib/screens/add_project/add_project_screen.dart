@@ -1,8 +1,6 @@
 import 'package:app/screens/add_project/bloc/add_project_bloc.dart';
 import 'package:app/screens/add_project/bloc/add_project_event.dart';
 import 'package:app/screens/add_project/bloc/add_project_state.dart';
-import 'package:app/screens/add_project/projects_list.dart';
-import 'package:app/screens/home/home_screen.dart';
 import 'package:app/styles/colors.dart';
 import 'package:app/styles/styles.dart';
 import 'package:app/widgets/button.dart';
@@ -69,11 +67,15 @@ class AddNewProject extends StatelessWidget {
           style: CustomStyles.title,
         ),
       ),
-      body: BlocProvider(
-        create: (context) => ProjectBloc(),
-        child: BlocBuilder<ProjectBloc, ProjectState>(
-            builder: (context, state) {
-          return Container(
+      body: BlocBuilder<AddProjectBloc, AddProjectState>(
+          builder: (context, state) {
+        return BlocListener<AddProjectBloc, AddProjectState>(
+          listener: (context, state) {
+            if (state is NewProjectAdded) {
+        Navigator.of(context).pop();
+            }
+        },
+          child: Container(
             color: CustomColors.background,
             child: Padding(
               padding: const EdgeInsets.all(16),
@@ -95,7 +97,7 @@ class AddNewProject extends StatelessWidget {
                         TextFieldWidget(
                             keyboardType: TextInputType.name,
                             textInputAction: TextInputAction.done,
-                            onChanged: (text) => context.read<ProjectBloc>().add(TextChanged(text: text)),
+                            onChanged: (text) => context.read<AddProjectBloc>().add(TextChanged(text)),
                             validator: null,
                           controller: _controller,
                         ),
@@ -113,16 +115,14 @@ class AddNewProject extends StatelessWidget {
                           children: List.generate(8, (index) {
                             return ColorCircleWidget(
                               onTap: () {
-                                //context.read<NewProjectBloc>().add(ColorChangedEvent(index: index));
+                                context.read<AddProjectBloc>().add(ColorChanged(_getColor(index), index));
                                  },
                               color: _getColor(index),
-                              icon: Icons.access_time,
-                              //state.changeIcon,
+                              icon: Icons.circle_rounded,
                               index: index,
                             );
                           }),
                         )
-
                       ],
                     ),
                   ),
@@ -130,14 +130,20 @@ class AddNewProject extends StatelessWidget {
                     alignment: Alignment.bottomCenter,
                     child: SizedBox(
                       child: ButtonWidget(
-                        onPressed: state.isEmpty ? null : ()
-                        {
-                          context.read<ProjectBloc>().add(AddProject(Project(text: state.text, icon: Icons.done)));
-                          // Navigator.of(context).push(MaterialPageRoute(
-                          //   builder: (context) =>  HomeScreen(),
-                          // ));
-                          Navigator.pop(context);
+                        onPressed:
+                        //state.text.isEmpty ? null :
+                            () {
+                          context
+                              .read<AddProjectBloc>()
+                              .add(AddProject());
                         },
+                        // state.isEmpty ? null : () {
+                        //   context.read<ProjectBloc>().add(AddProject(Project(text: state.text, color: Colors.blue)));
+                        //   // Navigator.of(context).push(MaterialPageRoute(
+                        //   //   builder: (context) =>  HomeScreen(),
+                        //   // ));
+                        //   Navigator.pop(context);
+                        // },
                         text: 'ADD PROJECT',
                       ),
                       width: double.infinity,
@@ -146,9 +152,9 @@ class AddNewProject extends StatelessWidget {
                 ],
               ),
             ),
-          );
-        }),
-      ),
+          ),
+        );
+      }),
     );
   }
 }

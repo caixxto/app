@@ -1,5 +1,3 @@
-import 'package:app/screens/add_project/projects_list.dart';
-import 'package:equatable/equatable.dart';
 import 'package:flutter/cupertino.dart';
 
 // abstract class NewProjectEvent {}
@@ -25,26 +23,43 @@ import 'package:flutter/cupertino.dart';
 //   AddProjectEvent({required this.text, required this.icon});
 // }
 
-abstract class ProjectEvent extends Equatable {
-  const ProjectEvent();
+// abstract class ProjectEvent  {}
+//
+// class AddProject extends ProjectEvent{
+//   final Project projects;
+//
+//   AddProject(this.projects);
+//
+// }
+//
+// class TextChanged extends ProjectEvent {
+//   final text;
+//  TextChanged({required this.text});
+// }
+//
+// class ProjectsChanged extends ProjectEvent {}
 
-  @override
-  List<Object> get props => [];
+abstract class AddProjectEvent {}
+
+class AddProject extends AddProjectEvent {
+  // final String title;
+  // final Color color;
+  //
+  // AddProject(this.title, this.color);
+
+  final String text;
+  final String color;
+
+  AddProject(this.text, this.color);
 }
 
-class AddProject extends ProjectEvent{
-  final Project projects;
-
-  const AddProject(this.projects);
-
-  @override
-  List<Object> get props => [projects];
-
+class TextChanged extends AddProjectEvent {
+  final String text;
+  TextChanged(this.text);
 }
 
-class TextChanged extends ProjectEvent {
-  final text;
-  const TextChanged({required this.text});
+class ColorChanged extends AddProjectEvent {
+  final Color color;
+  final int index;
+  ColorChanged(this.color, this.index);
 }
-
-class Init extends ProjectEvent {}

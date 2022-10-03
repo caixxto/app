@@ -1,5 +1,3 @@
-import 'package:app/screens/add_project/projects_list.dart';
-import 'package:equatable/equatable.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
@@ -51,51 +49,56 @@ import 'package:flutter/material.dart';
 //
 // }
 
-abstract class ProjectState extends Equatable {
+// abstract class ProjectState  {
+//   final text;
+//   ProjectState(this.text);
+//
+// }
 
+// class ProjectsLoaded extends ProjectState {
+//   final List<Project> projects;
+//    ProjectsLoaded({required this.projects}) : super(null);
+//   //
+//   // @override
+//   // List<Object> get props => [projects];
+// }
+//
+// class ProjectInitial extends ProjectState {
+//   ProjectInitial(text) : super(text);
+//
+// }
+//
+// class TextEmptyState extends ProjectState {
+//   final String text;
+//   TextEmptyState({required this.text}) : super(null);
+//
+//   bool get isEmpty {
+//     return text.isEmpty ? true : false;
+//   }
+//
+//   TextEmptyState copyWith({
+//     String? text,
+//   }) {
+//     return TextEmptyState(
+//       text: text ?? this.text,
+//     );
+//   }
+//
+// }
+
+abstract class AddProjectState {
+  // final String text;
+  // final Color color;
+  // AddProjectState(this.text, this.color);
+}
+
+class InitialState extends AddProjectState {}
+
+class NewProjectAdded extends AddProjectState {}
+
+class DataChanged extends AddProjectState {
   final String text;
-  bool get isEmpty {
-    return text.isEmpty ? true : false;
-  }
-
-  ProjectState(this.text);
-
-  @override
-  List<Object> get props => [];
-
+  final Color color;
+  DataChanged(this.text, this.color);
 }
-
-class ProjectsLoaded extends ProjectState {
-  final List<Project> projects;
-   ProjectsLoaded({required this.projects}): super('');
-
-  @override
-  List<Object> get props => [projects];
-}
-
-class ProjectInitial extends ProjectState {
-  ProjectInitial(String text) : super(text);
-
-}
-
-class TextEmptyState extends ProjectState {
-  final String text;
-  TextEmptyState({required this.text}) : super('');
-
-  bool get isEmpty {
-    return text.isEmpty ? true : false;
-  }
-
-  TextEmptyState copyWith({
-    String? text,
-  }) {
-    return TextEmptyState(
-      text: text ?? this.text,
-    );
-  }
-
-}
-
-
-
 
