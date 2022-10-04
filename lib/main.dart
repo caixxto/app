@@ -1,3 +1,4 @@
+import 'package:app/data/projects_list.dart';
 import 'package:app/screens/add_project/add_project_screen.dart';
 import 'package:app/screens/add_project/bloc/add_project_bloc.dart';
 import 'package:app/screens/home/bloc/home_bloc.dart';
@@ -29,7 +30,7 @@ void main() {
           create: (_) => TextModel(),
         ),
         BlocProvider(
-          create: (_) => ToDoBloc('', Colors.yellow, Colors.grey, 'No date', 'Inbox', Icons.inbox, Icons.access_time),
+          create: (_) => ToDoBloc('Inbox', '000', ''),
           child: NewToDo(),
         ),
         BlocProvider(
@@ -45,7 +46,7 @@ void main() {
           child: const HomeScreen(),
         ),
         BlocProvider(
-          create: (_) => AddProjectBloc('', Colors.white),
+          create: (_) => AddProjectBloc('', '0'),
           child: AddNewProject(),
         ),
         BlocProvider(

@@ -1,4 +1,4 @@
-import 'package:app/screens/add_project/projects_list.dart';
+import 'package:app/data/projects_list.dart';
 import 'package:app/screens/home/bloc/home_event.dart';
 import 'package:app/screens/home/bloc/home_state.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -13,16 +13,14 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
   }
 
   Future<void> _initState() async {
-    await Future.delayed(const Duration(seconds: 1));
+    //await Future.delayed(const Duration(seconds: 1));
     _updateList();
   }
 
-  void _updateList(){
+  void _updateList() async {
     emit(
-      DataLoaded(_repository.getProjects),
+      DataLoaded(await _repository.getProjects),
     );
   }
-
-
 
 }

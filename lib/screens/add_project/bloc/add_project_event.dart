@@ -47,10 +47,10 @@ class AddProject extends AddProjectEvent {
   //
   // AddProject(this.title, this.color);
 
-  final String text;
-  final String color;
+  //final String text;
+  //final int color;
 
-  AddProject(this.text, this.color);
+ // AddProject(this.text, this.color);
 }
 
 class TextChanged extends AddProjectEvent {
@@ -61,5 +61,6 @@ class TextChanged extends AddProjectEvent {
 class ColorChanged extends AddProjectEvent {
   final Color color;
   final int index;
-  ColorChanged(this.color, this.index);
+  final bool check;
+  ColorChanged(this.color, this.index, this.check);
 }

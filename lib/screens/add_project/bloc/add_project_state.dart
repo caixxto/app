@@ -97,8 +97,6 @@ class InitialState extends AddProjectState {}
 class NewProjectAdded extends AddProjectState {}
 
 class DataChanged extends AddProjectState {
-  final String text;
-  final Color color;
-  DataChanged(this.text, this.color);
+
 }
 

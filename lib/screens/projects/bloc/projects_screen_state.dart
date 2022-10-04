@@ -1,4 +1,4 @@
-import 'package:app/screens/add_project/projects_list.dart';
+import 'package:app/data/projects_list.dart';
 
 abstract class ProjectsScreenState {}
 

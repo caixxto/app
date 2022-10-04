@@ -4,6 +4,7 @@ class Project {
   int? id;
   final String text;
   final String color;
+
   Project({this.id, required this.text, required this.color});
 
   factory Project.fromJson(Map<String, dynamic> json) {
@@ -19,7 +20,7 @@ class Project {
     'color': color,
   };
 
-  }
+}
 
 class ProjectRepository {
   static final ProjectRepository  _instance = ProjectRepository._();
@@ -49,5 +50,4 @@ Future<int> addProject(Project project) async {
 Future<int> deleteProject(Project project) async {
   return DatabaseHelper.instance.deleteProject(project.id!);
 }
-
 }

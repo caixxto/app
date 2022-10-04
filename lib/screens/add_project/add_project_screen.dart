@@ -1,6 +1,7 @@
 import 'package:app/screens/add_project/bloc/add_project_bloc.dart';
 import 'package:app/screens/add_project/bloc/add_project_event.dart';
 import 'package:app/screens/add_project/bloc/add_project_state.dart';
+import 'package:app/screens/home/home_screen.dart';
 import 'package:app/styles/colors.dart';
 import 'package:app/styles/styles.dart';
 import 'package:app/widgets/button.dart';
@@ -9,44 +10,45 @@ import 'package:app/widgets/text_fields.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:string_to_color/string_to_color.dart';
 
 class AddNewProject extends StatelessWidget {
   final _formKey = GlobalKey<FormState>();
   AddNewProject({Key? key}) : super(key: key);
 
   Color circleColor = Colors.white;
-  TextEditingController? _controller;
+  final TextEditingController _controller = TextEditingController();
 
 
   Color _getColor(index) {
     Color color;
     switch (index) {
       case 0:
-        color = Colors.yellow;
+        color = Color(0xFFFFEB3B);
         break;
       case 1:
-        color = Colors.green;
+        color = Color(0xFF4CAF50);
         break;
       case 2:
-        color = color = Colors.red;
+        color = Color(0xFFF44336);
         break;
       case 3:
-        color = Colors.orange;
+        color = Color(0xFFFF9800);
         break;
       case 4:
-        color = Colors.purple;
+        color = Color(0xFF9C27B0);
         break;
       case 5:
-        color = Colors.lightBlueAccent;
+        color = Color(0xFF40C4FF);
         break;
       case 6:
-        color = Colors.blue;
+        color = Color(0xFF2196F3);
         break;
       case 7:
-        color = Colors.pink;
+        color = Color(0xFFE91E63);
         break;
       default:
-        color = Colors.white;
+        color = Color(0xB3FFFFFF);
         break;
     }
     return color;
@@ -114,11 +116,12 @@ class AddNewProject extends StatelessWidget {
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: List.generate(8, (index) {
                             return ColorCircleWidget(
+                              isChecked: false,
                               onTap: () {
-                                context.read<AddProjectBloc>().add(ColorChanged(_getColor(index), index));
+                                context.read<AddProjectBloc>().add(ColorChanged(_getColor(index), index, false));
                                  },
                               color: _getColor(index),
-                              icon: Icons.circle_rounded,
+                              //icon: Icons.circle_rounded,
                               index: index,
                             );
                           }),
@@ -130,20 +133,11 @@ class AddNewProject extends StatelessWidget {
                     alignment: Alignment.bottomCenter,
                     child: SizedBox(
                       child: ButtonWidget(
-                        onPressed:
-                        //state.text.isEmpty ? null :
-                            () {
-                          context
-                              .read<AddProjectBloc>()
-                              .add(AddProject());
+                        onPressed: _controller.text.isEmpty ? null : () {
+                            context
+                                .read<AddProjectBloc>()
+                                .add(AddProject());
                         },
-                        // state.isEmpty ? null : () {
-                        //   context.read<ProjectBloc>().add(AddProject(Project(text: state.text, color: Colors.blue)));
-                        //   // Navigator.of(context).push(MaterialPageRoute(
-                        //   //   builder: (context) =>  HomeScreen(),
-                        //   // ));
-                        //   Navigator.pop(context);
-                        // },
                         text: 'ADD PROJECT',
                       ),
                       width: double.infinity,

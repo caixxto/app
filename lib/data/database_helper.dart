@@ -1,10 +1,11 @@
 import 'dart:io';
-import 'package:app/screens/add_project/projects_list.dart';
+import 'package:app/data/projects_list.dart';
+import 'package:app/data/todo_list.dart';
 import 'package:sqflite/sqflite.dart';
 import 'package:path/path.dart';
 import 'package:path_provider/path_provider.dart';
 
-const dbVersion = 1;
+const dbVersion = 2;
 
 class DatabaseHelper {
   DatabaseHelper._();
@@ -18,28 +19,30 @@ class DatabaseHelper {
   Future<Database> get _database async => _databaseInstance ??= await _initDatabase();
 
   Future<Database> _initDatabase() async {
-    final Directory directory = await getApplicationDocumentsDirectory();
-    final String path = join(directory.path, 'example_database.db');
+    //final Directory directory = await getApplicationDocumentsDirectory();
+    final String path = join(await getDatabasesPath(), 'example_database.db');
     return openDatabase(
       path,
       version: dbVersion,
       onCreate: _onCreateDatabase,
-      onUpgrade: (Database db, int oldVersion, int newVersion) {
-
-      }
     );
   }
 
   Future<void> _onCreateDatabase(Database db, int version) async {
-    db.execute(
-      "CREATE TABLE IF NOT EXIST projects(id INTEGER PRIMARY KEY AUTOINCREMENT, text TEXT UNIQUE, color TEXT UNIQUE)"
+    await db.execute(
+      "CREATE TABLE IF NOT EXISTS projects(id INTEGER PRIMARY KEY AUTOINCREMENT, text TEXT, color TEXT)",
+    );
+    await db.execute(
+      "CREATE TABLE IF NOT EXISTS todos(id INTEGER PRIMARY KEY AUTOINCREMENT, text TEXT, dataText TEXT, project TEXT)",
     );
   }
 
-  Future<List<Project>> getProjects() async {
+  Future<List<Map<String, Object?>>> getProjects() async {
     final db = await instance._database;
-    final result = await db.rawQuery('SELECT * FROM projects');
-    return result.map((e) => Project.fromJSON(e)).toList();
+    final result = await db.query('projects');
+    return result;
+    //return db.rawQuery('SELECT * FROM projects');
+      //result.map((e) => Project.fromJSON(e)).toList();
   }
 
   Future<int> addProject(Project project) async {
@@ -56,5 +59,30 @@ class DatabaseHelper {
   Future<int> deleteProject(int id) async {
     final db = await instance._database;
     return db.delete('projects', where: 'id=?', whereArgs: [id]);
+  }
+
+  Future<List<Map<String, Object?>>> getToDos() async {
+    final db = await instance._database;
+    final result = await db.query('todos');
+    return result;
+    //return db.rawQuery('SELECT * FROM projects');
+    //result.map((e) => Project.fromJSON(e)).toList();
+  }
+
+  Future<int> addToDo(ToDo todo) async {
+    final db = await instance._database;
+    return db.insert(
+      'todos',
+      {
+        'text': todo.text,
+        'dataText': todo.dataText,
+        'project': todo.project
+      },
+    );
+  }
+
+  Future<int> deleteToDo(int id) async {
+    final db = await instance._database;
+    return db.delete('todos', where: 'id=?', whereArgs: [id]);
   }
 }

@@ -17,6 +17,7 @@ import 'package:app/widgets/list_tile_homepage.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:string_to_color/string_to_color.dart';
 
 class HomeScreen extends StatelessWidget {
   const HomeScreen({Key? key}) : super(key: key);
@@ -35,8 +36,8 @@ class HomeScreen extends StatelessWidget {
         case DataLoaded:
           final projects = (state as DataLoaded).projects;
           return BlocListener<AddProjectBloc, AddProjectState>(
-            listener: (_, addToDoState) {
-              if (addToDoState is NewProjectAdded) {
+            listener: (_, addProjectState) {
+              if (addProjectState is NewProjectAdded) {
                 context.read<HomeBloc>().add(UpdateDataEvent());
               }
             },
@@ -210,10 +211,11 @@ class HomeScreen extends StatelessWidget {
                                       title: projects[index].text,
                                       icon: Icons.circle_rounded,
                                       num: 1,
-                                      iconColor: Colors.white12,
-                                      //projects[index].color,
+                                      iconColor: Color(int.parse(projects[index].color, radix: 16)),
                                     ),
-                                  );
+                                      //Color(projects[index].color),
+                                      //projects[index].color,
+                                    );
                                 }),
                               ),
                             ),

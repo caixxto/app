@@ -9,6 +9,7 @@ import 'package:app/widgets/list_tile_homepage.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:string_to_color/string_to_color.dart';
 
 import 'bloc/projects_screen_event.dart';
 
@@ -33,6 +34,7 @@ class ProjectsScreen extends StatelessWidget {
               }
             },
             child: Scaffold(
+                backgroundColor: CustomColors.darkGreyBackground,
                 appBar: AppBar(
                   title: const Text('Projects'),
                   centerTitle: true,
@@ -54,30 +56,63 @@ class ProjectsScreen extends StatelessWidget {
                         icon: const Icon(Icons.add, color: Colors.black))
                   ],
                 ),
-                body: Container(
-                  color: CustomColors.darkGreyBackground,
-                  padding:
-                      const EdgeInsets.only(left: 16, right: 16, bottom: 24),
-                  child: Column(
-                    children: List.generate(projects.length, (index) {
-                      return CustomListTile(
-                        title: projects[index].text,
-                        icon: Icons.circle_rounded,
-                        num: 1,
-                        iconColor: projects[index].color,
-                      );
-                    }),
+                body: Padding(
+                  padding: const EdgeInsets.only(
+                      top: 32, left: 16, right: 16, bottom: 24),
+                  child: ListView.separated(
+                    itemCount: projects.length,
+                    separatorBuilder: (_, __) => const Divider(
+                      height: 0,
+                    ),
+                    itemBuilder: (context, index) => Dismissible(
+                      confirmDismiss: (direction) async =>
+                          direction == DismissDirection.endToStart,
+                      onUpdate: (details) {
+                        if (details.direction == DismissDirection.startToEnd &&
+                            details.reached) {}
+                      },
+                      onDismissed: (_) {
+                        context
+                            .read<ProjectsScreenBloc>()
+                            .add(DeleteProjectEvent(projects[index]));
+                      },
+                      secondaryBackground: Container(
+                        padding: const EdgeInsets.only(right: 20),
+                        color: Colors.red,
+                        alignment: Alignment.centerRight,
+                        child: const Text('Delete'),
+                      ),
+                      background: Container(
+                        padding: const EdgeInsets.only(left: 20),
+                        color: Colors.orange,
+                        alignment: Alignment.centerLeft,
+                        child: const Text('Edit'),
+                      ),
+                      key: Key(projects[index].text),
+                      child: GestureDetector(
+                        onTap: () {
+                          context
+                              .read<ProjectsScreenBloc>()
+                              .add(DeleteProjectEvent(projects[index]));
+                        },
+                        child: CustomListTile(
+                          title: projects[index].text,
+                          icon: Icons.circle_rounded,
+                          num: 0,
+                          iconColor: Color(
+                              int.parse(projects[index].color, radix: 16)),
+                        ),
+                      ),
+                    ),
                   ),
                 ),
                 floatingActionButton: Padding(
                   padding: const EdgeInsets.only(right: 16, bottom: 28),
                   child: FloatingActionButton(
-                    onPressed: ()
-                    {
+                    onPressed: () {
                       Navigator.of(context).push(MaterialPageRoute(
                         builder: (_) => AddNewProject(),
-                      )
-                      );
+                      ));
                     },
                     child: const Icon(
                       Icons.add,
@@ -85,12 +120,10 @@ class ProjectsScreen extends StatelessWidget {
                     ),
                     backgroundColor: CustomColors.buttons,
                   ),
-                )
-            ),
+                )),
           );
       }
-      return Placeholder();
-    }
-    );
+      return const Placeholder();
+    });
   }
 }
