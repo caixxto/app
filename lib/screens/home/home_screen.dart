@@ -3,10 +3,12 @@ import 'package:app/screens/add_project/bloc/add_project_state.dart';
 import 'package:app/screens/home/bloc/home_bloc.dart';
 import 'package:app/screens/home/bloc/home_event.dart';
 import 'package:app/screens/home/bloc/home_state.dart';
-import 'package:app/screens/home/screen.dart';
+import 'package:app/todos/todos_screen.dart';
 import 'package:app/screens/inbox_screen/inbox_list.dart';
 import 'package:app/screens/new_todo/bloc/todo_bloc.dart';
 import 'package:app/screens/new_todo/bloc/todo_state.dart';
+import 'package:app/screens/projects/bloc/projects_screen_bloc.dart';
+import 'package:app/screens/projects/bloc/projects_screen_state.dart';
 import 'package:app/screens/today_screen/today_list.dart';
 import 'package:app/screens/upcoming_screen/upcoming_list.dart';
 import 'package:app/styles/colors.dart';
@@ -35,6 +37,7 @@ class HomeScreen extends StatelessWidget {
           );
         case DataLoaded:
           final projects = (state as DataLoaded).projects;
+          final todos = state.todos;
           return BlocListener<AddProjectBloc, AddProjectState>(
             listener: (_, addProjectState) {
               if (addProjectState is NewProjectAdded) {
@@ -47,195 +50,202 @@ class HomeScreen extends StatelessWidget {
                   context.read<HomeBloc>().add(UpdateDataEvent());
                 }
               },
-              child: Scaffold(
-                  appBar: AppBar(
-                    backgroundColor: CustomColors.yellow,
-                    actions: [
-                      IconButton(
-                        padding: const EdgeInsets.only(right: 13.51),
-                        icon: const Icon(
-                          Icons.search,
-                          color: Colors.black,
+              child: BlocListener<ProjectsScreenBloc, ProjectsScreenState>(
+                listener: (_, deleteProjectState) {
+                  if (deleteProjectState is ProjectDataLoaded) {
+                    context.read<HomeBloc>().add(UpdateDataEvent());
+                  }
+                },
+                child: Scaffold(
+                    appBar: AppBar(
+                      backgroundColor: CustomColors.yellow,
+                      actions: [
+                        IconButton(
+                          padding: const EdgeInsets.only(right: 13.51),
+                          icon: const Icon(
+                            Icons.search,
+                            color: Colors.black,
+                          ),
+                          onPressed: () {},
                         ),
-                        onPressed: () {},
+                      ],
+                    ),
+                    drawer: Drawer(
+                      child: Container(
+                        color: CustomColors.yellow,
+                        padding: const EdgeInsets.only(top: 145, left: 40),
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            const CircleAvatar(
+                              radius: 40,
+                            ),
+                            const SizedBox(
+                              height: 12,
+                            ),
+                            const Text('Alex \nMitchell',
+                                style: TextStyle(
+                                    color: Colors.black,
+                                    fontSize: 22,
+                                    fontWeight: FontWeight.bold,
+                                    fontFamily: 'SFProTextRegular')),
+                            const SizedBox(
+                              height: 60,
+                            ),
+                            ListTile(
+                              leading: const Icon(Icons.timelapse, color: Colors.black),
+                              title: const Text(
+                                'Productivity',
+                                style: CustomStyles.black14,
+                              ),
+                              onTap: () {},
+                            ),
+                            ListTile(
+                              leading: const Icon(Icons.folder_open, color: Colors.black),
+                              title: const Text(
+                                'Projects',
+                                style: CustomStyles.black14,
+                              ),
+                              onTap: () {
+                                Navigator.popAndPushNamed(context, '/projects');
+                              },
+                            ),
+                            ListTile(
+                              leading: const Icon(Icons.settings, color: Colors.black),
+                              title: const Text(
+                                'Settings',
+                                style: CustomStyles.black14,
+                              ),
+                              onTap: () {},
+                            ),
+                          ],
+                        ),
                       ),
-                    ],
-                  ),
-                  drawer: Drawer(
-                    child: Container(
-                      color: CustomColors.yellow,
-                      padding: const EdgeInsets.only(top: 145, left: 40),
+                    ),
+                    body: Material(
+                      color: CustomColors.background,
                       child: Column(
-                        mainAxisAlignment: MainAxisAlignment.start,
                         crossAxisAlignment: CrossAxisAlignment.start,
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        mainAxisSize: MainAxisSize.max,
                         children: [
-                          const CircleAvatar(
-                            radius: 40,
+                          Padding(
+                            padding: const EdgeInsets.only(
+                                left: 32, top: 30, bottom: 30),
+                            child: Text(
+                              'Hello $name! 👋',
+                              style: CustomStyles.white22,
+                            ),
                           ),
-                          const SizedBox(
-                            height: 12,
+                          Padding(
+                            padding: const EdgeInsets.only(left: 16, right: 16),
+                            child: SizedBox(
+                              child: DecoratedBox(
+                                decoration: const BoxDecoration(
+                                  color: CustomColors.listTile,
+                                  borderRadius:
+                                      BorderRadius.all(Radius.circular(12)),
+                                ),
+                                child: Column(
+                                  mainAxisSize: MainAxisSize.min,
+                                  //crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    GestureDetector(
+                                      onTap: () {
+                                        Navigator.pushNamed(context, '/inbox');
+                                        },
+                                      child: CustomListTile(
+                                          title: 'Inbox',
+                                          icon: Icons.inbox,
+                                          num: todos.length,
+                                          iconColor: Colors.yellow,
+                                          topRadius: 12,
+                                          bottomRadius: 0
+                                      ),
+                                    ),
+                                    const DividerWidget(),
+                                    GestureDetector(
+                                      onTap: () { Navigator.pushNamed(context, '/today'); },
+                                      child: CustomListTile(
+                                          title: 'Today',
+                                          icon: Icons.calendar_today,
+                                          num: TodayRepository.instance.getToDo.length,
+                                          iconColor: Colors.green,
+                                          topRadius: 0,
+                                          bottomRadius: 0),
+                                    ),
+                                    const DividerWidget(),
+                                    GestureDetector(
+                                      onTap: () { Navigator.pushNamed(context, '/upcoming'); },
+                                      child: CustomListTile(
+                                          title: 'Upcoming',
+                                          icon: Icons.calendar_month,
+                                          num: UpcomingRepository.instance.getToDo.length,
+                                          iconColor: Colors.blue,
+                                          topRadius: 0,
+                                          bottomRadius: 12),
+                                    ),
+                                  ],
+                                ),
+                              ),
+                            ),
                           ),
-                          const Text('Alex \nMitchell',
+                          const Padding(
+                            padding:
+                                EdgeInsets.only(left: 32, top: 34, bottom: 14),
+                            child: Text(
+                              'PROJECTS',
                               style: TextStyle(
-                                  color: Colors.black,
-                                  fontSize: 22,
+                                  color: Color.fromRGBO(235, 235, 245, 0.6),
+                                  fontSize: 14,
                                   fontWeight: FontWeight.bold,
-                                  fontFamily: 'SFProTextRegular')),
-                          const SizedBox(
-                            height: 60,
-                          ),
-                          ListTile(
-                            leading: const Icon(Icons.timelapse, color: Colors.black),
-                            title: const Text(
-                              'Productivity',
-                              style: CustomStyles.black14,
+                                  fontFamily: 'SFProTextRegular'),
                             ),
-                            onTap: () {},
                           ),
-                          ListTile(
-                            leading: const Icon(Icons.folder_open, color: Colors.black),
-                            title: const Text(
-                              'Projects',
-                              style: CustomStyles.black14,
+                          Padding(
+                            padding: const EdgeInsets.only(left: 16, right: 16),
+                            child: SizedBox(
+                              child: DecoratedBox(
+                                decoration: const BoxDecoration(
+                                  color: CustomColors.listTile,
+                                  borderRadius:
+                                      BorderRadius.all(Radius.circular(12)),
+                                ),
+                                child: Column(
+                                  children:
+                                      List.generate(projects.length, (index) {
+                                        final proj = projects[index];
+                                    return GestureDetector(
+                                      onTap: () {
+                                        Navigator.of(context).push(MaterialPageRoute(builder: (context) => ToDoScreen(name: proj.text, id: proj.id!)));
+                                      },
+                                      child: CustomListTile(
+                                        title: proj.text,
+                                        icon: Icons.circle_rounded,
+                                        num: 0,
+                                        iconColor: Color(int.parse(projects[index].color, radix: 16)),
+                                      ),
+                                      );
+                                  }),
+                                ),
+                              ),
                             ),
-                            onTap: () {
-                              Navigator.pushNamed(context, '/projects');
-                            },
-                          ),
-                          ListTile(
-                            leading: const Icon(Icons.settings, color: Colors.black),
-                            title: const Text(
-                              'Settings',
-                              style: CustomStyles.black14,
-                            ),
-                            onTap: () {},
-                          ),
+                          )
                         ],
                       ),
                     ),
-                  ),
-                  body: Material(
-                    color: CustomColors.background,
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      mainAxisAlignment: MainAxisAlignment.start,
-                      mainAxisSize: MainAxisSize.max,
-                      children: [
-                        Padding(
-                          padding: const EdgeInsets.only(
-                              left: 32, top: 30, bottom: 30),
-                          child: Text(
-                            'Hello $name! 👋',
-                            style: CustomStyles.white22,
-                          ),
-                        ),
-                        Padding(
-                          padding: const EdgeInsets.only(left: 16, right: 16),
-                          child: SizedBox(
-                            child: DecoratedBox(
-                              decoration: const BoxDecoration(
-                                color: CustomColors.listTile,
-                                borderRadius:
-                                    BorderRadius.all(Radius.circular(12)),
-                              ),
-                              child: Column(
-                                mainAxisSize: MainAxisSize.min,
-                                //crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  GestureDetector(
-                                    onTap: () { Navigator.pushNamed(context, '/inbox'); },
-                                    child: CustomListTile(
-                                        title: 'Inbox',
-                                        icon: Icons.inbox,
-                                        num: InboxRepository.instance.getToDo.length,
-                                        iconColor: Colors.yellow,
-                                        topRadius: 12,
-                                        bottomRadius: 0),
-                                  ),
-                                  const DividerWidget(),
-                                  GestureDetector(
-                                    onTap: () { Navigator.pushNamed(context, '/today'); },
-                                    child: CustomListTile(
-                                        title: 'Today',
-                                        icon: Icons.calendar_today,
-                                        num: TodayRepository.instance.getToDo.length,
-                                        iconColor: Colors.green,
-                                        topRadius: 0,
-                                        bottomRadius: 0),
-                                  ),
-                                  const DividerWidget(),
-                                  GestureDetector(
-                                    onTap: () { Navigator.pushNamed(context, '/upcoming'); },
-                                    child: CustomListTile(
-                                        title: 'Upcoming',
-                                        icon: Icons.calendar_month,
-                                        num: UpcomingRepository.instance.getToDo.length,
-                                        iconColor: Colors.blue,
-                                        topRadius: 0,
-                                        bottomRadius: 12),
-                                  ),
-                                ],
-                              ),
-                            ),
-                          ),
-                        ),
-                        const Padding(
-                          padding:
-                              EdgeInsets.only(left: 32, top: 34, bottom: 14),
-                          child: Text(
-                            'PROJECTS',
-                            style: TextStyle(
-                                color: Color.fromRGBO(235, 235, 245, 0.6),
-                                fontSize: 14,
-                                fontWeight: FontWeight.bold,
-                                fontFamily: 'SFProTextRegular'),
-                          ),
-                        ),
-                        Padding(
-                          padding: const EdgeInsets.only(left: 16, right: 16),
-                          child: SizedBox(
-                            child: DecoratedBox(
-                              decoration: const BoxDecoration(
-                                color: CustomColors.listTile,
-                                borderRadius:
-                                    BorderRadius.all(Radius.circular(12)),
-                              ),
-                              child: Column(
-                                children:
-                                    List.generate(projects.length, (index) {
-                                  return GestureDetector(
-                                    onTap: () {
-                                      Navigator.of(context).push(MaterialPageRoute(builder: (context) => Screen(name: projects[index].text)));
-                                    },
-                                    child: CustomListTile(
-                                      title: projects[index].text,
-                                      icon: Icons.circle_rounded,
-                                      num: 1,
-                                      iconColor: Color(int.parse(projects[index].color, radix: 16)),
-                                    ),
-                                      //Color(projects[index].color),
-                                      //projects[index].color,
-                                    );
-                                }),
-                              ),
-                            ),
-                          ),
-                        )
-                      ],
-                    ),
-                  ),
-                  floatingActionButton: Padding(
-                    padding: const EdgeInsets.only(right: 16, bottom: 28),
-                    child: FloatingActionButton(
-                      onPressed: () {
-                        Navigator.of(context).push(MaterialPageRoute(
-                          builder: (_) => NewToDo(),
-                        ));
-                      },
-                      child: const Icon(Icons.add, color: Colors.black),
-                      backgroundColor: CustomColors.buttons,
-                    ),
-                  )
+                    floatingActionButton: Padding(
+                      padding: const EdgeInsets.only(right: 16, bottom: 28),
+                      child: FloatingActionButton(
+                        onPressed: () {
+                          Navigator.pushNamed(context, '/todo');
+                        },
+                        child: const Icon(Icons.add, color: Colors.black),
+                        backgroundColor: CustomColors.buttons,
+                      ),
+                    )
+                ),
               ),
             ),
           );

@@ -5,7 +5,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 
 class ProjectsScreenBloc extends Bloc<ProjectsScreenEvent, ProjectsScreenState> {
   final ProjectRepository _repository = ProjectRepository.instance;
-  ProjectsScreenBloc() : super(LoadingState()) {
+  ProjectsScreenBloc() : super(ProjectLoadingState()) {
     _initState();
     on<UpdateDataEvent>((event, state) async {
       _updateList();
@@ -20,7 +20,7 @@ class ProjectsScreenBloc extends Bloc<ProjectsScreenEvent, ProjectsScreenState> 
 
   void _updateList() async {
     emit(
-      DataLoaded(await _repository.getProjects),
+      ProjectDataLoaded(await _repository.getProjects),
     );
   }
 

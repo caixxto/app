@@ -2,9 +2,9 @@ import 'package:app/data/projects_list.dart';
 
 abstract class ProjectsScreenState {}
 
-class LoadingState extends ProjectsScreenState {}
+class ProjectLoadingState extends ProjectsScreenState {}
 
-class DataLoaded extends ProjectsScreenState {
+class ProjectDataLoaded extends ProjectsScreenState {
   final List<Project> projects;
-  DataLoaded(this.projects);
+  ProjectDataLoaded(this.projects);
 }

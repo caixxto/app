@@ -18,6 +18,7 @@ class AddNewProject extends StatelessWidget {
 
   Color circleColor = Colors.white;
   final TextEditingController _controller = TextEditingController();
+  Color _color = Colors.white12;
 
 
   Color _getColor(index) {
@@ -74,7 +75,7 @@ class AddNewProject extends StatelessWidget {
         return BlocListener<AddProjectBloc, AddProjectState>(
           listener: (context, state) {
             if (state is NewProjectAdded) {
-        Navigator.of(context).pop();
+              Navigator.of(context).pop();
             }
         },
           child: Container(
@@ -99,7 +100,7 @@ class AddNewProject extends StatelessWidget {
                         TextFieldWidget(
                             keyboardType: TextInputType.name,
                             textInputAction: TextInputAction.done,
-                            onChanged: (text) => context.read<AddProjectBloc>().add(TextChanged(text)),
+                            onChanged: (text) => context.read<AddProjectBloc>().add(DataChangeEvent()),
                             validator: null,
                           controller: _controller,
                         ),
@@ -116,9 +117,10 @@ class AddNewProject extends StatelessWidget {
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: List.generate(8, (index) {
                             return ColorCircleWidget(
-                              isChecked: false,
+                              isChecked: _color == _getColor(index) ? true : false,
                               onTap: () {
-                                context.read<AddProjectBloc>().add(ColorChanged(_getColor(index), index, false));
+                                _color = _getColor(index);
+                                context.read<AddProjectBloc>().add(DataChangeEvent());
                                  },
                               color: _getColor(index),
                               //icon: Icons.circle_rounded,
@@ -136,7 +138,7 @@ class AddNewProject extends StatelessWidget {
                         onPressed: _controller.text.isEmpty ? null : () {
                             context
                                 .read<AddProjectBloc>()
-                                .add(AddProject());
+                                .add(AddProject(_controller.text, _color));
                         },
                         text: 'ADD PROJECT',
                       ),

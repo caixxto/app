@@ -5,7 +5,7 @@ import 'package:sqflite/sqflite.dart';
 import 'package:path/path.dart';
 import 'package:path_provider/path_provider.dart';
 
-const dbVersion = 2;
+const dbVersion = 1;
 
 class DatabaseHelper {
   DatabaseHelper._();
@@ -29,11 +29,11 @@ class DatabaseHelper {
   }
 
   Future<void> _onCreateDatabase(Database db, int version) async {
-    await db.execute(
+    db.execute(
       "CREATE TABLE IF NOT EXISTS projects(id INTEGER PRIMARY KEY AUTOINCREMENT, text TEXT, color TEXT)",
     );
-    await db.execute(
-      "CREATE TABLE IF NOT EXISTS todos(id INTEGER PRIMARY KEY AUTOINCREMENT, text TEXT, dataText TEXT, project TEXT)",
+    db.execute(
+      "CREATE TABLE IF NOT EXISTS todos(id INTEGER PRIMARY KEY AUTOINCREMENT, text TEXT, dataText TEXT, project INTEGER)",
     );
   }
 
@@ -67,6 +67,13 @@ class DatabaseHelper {
     return result;
     //return db.rawQuery('SELECT * FROM projects');
     //result.map((e) => Project.fromJSON(e)).toList();
+  }
+
+  Future<List<Map<String, Object?>>> getToDosFromId(project) async {
+    final db = await instance._database;
+    final result = await db.query('todos', where: 'project=?', whereArgs: [project]);
+    //final result = db.rawQuery('SELECT todos FROM projects WHERE id = $project');
+    return result;
   }
 
   Future<int> addToDo(ToDo todo) async {

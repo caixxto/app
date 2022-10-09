@@ -16,6 +16,8 @@ import 'package:app/screens/today_screen/bloc/today_bloc.dart';
 import 'package:app/screens/today_screen/today_screen.dart';
 import 'package:app/screens/upcoming_screen/bloc/upcoming_bloc.dart';
 import 'package:app/screens/upcoming_screen/upcoming_screen.dart';
+import 'package:app/todos/bloc/todos_bloc.dart';
+import 'package:app/todos/todos_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'screens/authorization_screen.dart';
@@ -27,10 +29,13 @@ void main() {
     MultiBlocProvider(
       providers: [
         BlocProvider(
+          create: (_) => ToDoScreenBloc(),
+        ),
+        BlocProvider(
           create: (_) => TextModel(),
         ),
         BlocProvider(
-          create: (_) => ToDoBloc('Inbox', '000', ''),
+          create: (_) => ToDoBloc(),
           child: NewToDo(),
         ),
         BlocProvider(
@@ -46,7 +51,7 @@ void main() {
           child: const HomeScreen(),
         ),
         BlocProvider(
-          create: (_) => AddProjectBloc('', '0'),
+          create: (_) => AddProjectBloc(),
           child: AddNewProject(),
         ),
         BlocProvider(

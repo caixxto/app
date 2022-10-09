@@ -1,29 +1,17 @@
 import 'package:app/data/projects_list.dart';
+import 'package:app/data/todo_list.dart';
 
 abstract class ToDoEvent {}
 
-class ProjectChanged extends ToDoEvent {
-  // final int index;
-  // ProjectChanged(this.index);
-  final Project project;
-  ProjectChanged(this.project);
-}
+class TodoDataChanged extends ToDoEvent {}
 
-class TextChanged extends ToDoEvent {
-
-}
-
-class DateChanged extends ToDoEvent {
-  final DateTime? date;
-  DateChanged(this.date);
-}
 
 class AddToDo extends ToDoEvent {
-  // final String text;
-  // final String dateText;
-  // final List<Project> projects;
-  //
-  // AddToDo(this.text, this.dateText, this.projects);
+  final String text;
+  final String dateText;
+  final Project project;
+
+  AddToDo(this.text, this.dateText, this.project);
 }
 
 class UpdateProjectsEvent extends ToDoEvent {}

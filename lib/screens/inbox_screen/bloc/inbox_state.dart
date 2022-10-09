@@ -1,5 +1,5 @@
-import 'package:app/screens/inbox_screen/inbox_list.dart';
-import 'package:app/screens/upcoming_screen/upcoming_list.dart';
+import 'package:app/data/projects_list.dart';
+import 'package:app/data/todo_list.dart';
 
 abstract class InboxState {}
 
@@ -7,5 +7,6 @@ class InboxLoadingState extends InboxState {}
 
 class InboxDataLoaded extends InboxState {
   final List<ToDo> todos;
-  InboxDataLoaded(this.todos);
+  final List<Project> projects;
+  InboxDataLoaded(this.todos, this.projects);
 }

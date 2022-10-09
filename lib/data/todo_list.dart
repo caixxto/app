@@ -5,7 +5,7 @@ class ToDo {
   int? id;
   final String text;
   final String dataText;
-  final String project;
+  final int project;
 
   ToDo({this.id, required this.text, required this.dataText, required this.project});
 
@@ -37,6 +37,20 @@ class ToDoRepository {
   Future<List<ToDo>> get getToDos async {
     final db = DatabaseHelper.instance;
     final result = await db.getToDos();
+    return result.map((e) => ToDo.fromJson(e)).toList();
+  }
+
+  // Future<List<ToDo>> get getToDosFromId async {
+  //   final project = 1;
+  //   final db = DatabaseHelper.instance;
+  //   final result = await db.getToDosFromId(project);
+  //   return result.map((e) => ToDo.fromJson(e)).toList();
+  // }
+
+  Future<List<ToDo>> getToDosFromId(project) async {
+
+    final db = DatabaseHelper.instance;
+    final result = await db.getToDosFromId(project);
     return result.map((e) => ToDo.fromJson(e)).toList();
   }
 

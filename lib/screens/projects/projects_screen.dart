@@ -21,12 +21,12 @@ class ProjectsScreen extends StatelessWidget {
     return BlocBuilder<ProjectsScreenBloc, ProjectsScreenState>(
         builder: (context, state) {
       switch (state.runtimeType) {
-        case LoadingState:
+        case ProjectLoadingState:
           return const Center(
             child: CircularProgressIndicator(),
           );
-        case DataLoaded:
-          final projects = (state as DataLoaded).projects;
+        case ProjectDataLoaded:
+          final projects = (state as ProjectDataLoaded).projects;
           return BlocListener<AddProjectBloc, AddProjectState>(
             listener: (_, addProjectState) {
               if (addProjectState is NewProjectAdded) {
